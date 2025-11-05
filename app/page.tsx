@@ -57,7 +57,7 @@ export default function Home() {
                   </svg>
                 </a>
                 <a
-                  href="https://github.com"
+                  href="https://github.com/amaria33"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-3 bg-white dark:bg-[#3a3a3a] rounded-lg hover:bg-[#FFF9F6] dark:hover:bg-[#4a4a4a] transition-all shadow-sm hover:shadow-md"
@@ -76,7 +76,7 @@ export default function Home() {
                   </svg>
                 </a>
                 <a
-                  href="mailto:contact@ashleymaria.com"
+                  href="mailto:ralucero@me.com"
                   className="p-3 bg-white dark:bg-[#3a3a3a] rounded-lg hover:bg-[#FFF9F6] dark:hover:bg-[#4a4a4a] transition-all shadow-sm hover:shadow-md"
                   aria-label="Email"
                 >
@@ -487,22 +487,23 @@ export default function Home() {
               </div>
               <div className="p-6">
                 <h3 className="text-2xl font-bold mb-3 text-[#2B2B2B] dark:text-[#FFF9F6] group-hover:text-[#D8B878] dark:group-hover:text-[#D8B878] transition-colors">
-                  Explainx.AI Chrome Extension
+                  ResuMatch Chrome Extension
                 </h3>
                 <p className="text-[#2B2B2B]/70 dark:text-[#FFF9F6]/70 mb-4">
-                  Developed a Chrome extension that uses AI to explain complex
-                  content on any webpage, providing instant summaries and
-                  clarifications to enhance learning and comprehension.
+                  Created an AI-powered Chrome extension that matches resumes
+                  with job descriptions, analyzing keyword alignment and
+                  providing optimization suggestions to increase application
+                  success rates.
                 </p>
                 <div className="flex flex-wrap gap-2">
                   <span className="px-3 py-1 bg-[#F4C2C2]/30 dark:bg-[#E8A9B8]/20 text-[#2B2B2B] dark:text-[#F4C2C2] rounded-full text-sm">
                     Chrome Extension
                   </span>
                   <span className="px-3 py-1 bg-[#E8A9B8]/30 dark:bg-[#E8A9B8]/20 text-[#2B2B2B] dark:text-[#E8A9B8] rounded-full text-sm">
-                    AI
+                    AI Matching
                   </span>
                   <span className="px-3 py-1 bg-[#D8B878]/30 dark:bg-[#D8B878]/20 text-[#2B2B2B] dark:text-[#D8B878] rounded-full text-sm">
-                    JavaScript
+                    Resume Optimization
                   </span>
                 </div>
               </div>
@@ -526,7 +527,7 @@ export default function Home() {
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <a
-              href="mailto:contact@ashleymaria.com"
+              href="mailto:ralucero@me.com"
               className="px-8 py-4 bg-white text-[#E8A9B8] rounded-lg font-medium hover:bg-[#FFF9F6] transition-all shadow-lg hover:shadow-xl hover:scale-105"
             >
               Send Email
