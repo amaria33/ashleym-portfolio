@@ -1,123 +1,165 @@
-import Link from "next/link";
-
-const jotformPrivacyUrl = "/jotform-privacy";
-
 export default function PrivacyPage() {
   return (
-    <main className="mx-auto max-w-3xl space-y-8 px-6 py-20 text-[#2B2B2B] dark:text-[#FFF9F6]">
-      <header className="space-y-3 text-center">
-        <h1 className="text-3xl font-bold md:text-4xl">Privacy &amp; Data Use</h1>
-        <p className="text-base text-[#2B2B2B]/75 dark:text-[#FFF9F6]/70">
-          I respect your time, trust, and inbox. This page outlines what happens
-          when you share information through the Starter Site intake form.
+    <main className="min-h-screen bg-[#FFF6F3] py-12 px-6">
+      <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-md p-8 md:p-12">
+        <h1 className="text-3xl md:text-4xl font-bold text-[#3A3A3A] mb-2">
+          Privacy Policy
+        </h1>
+        <p className="text-sm text-[#C0C0C0] mb-8">
+          Last updated: {new Date().toLocaleDateString()}
         </p>
-      </header>
 
-      <section className="space-y-4 rounded-3xl border border-[#F4C2C2]/40 bg-white/95 p-6 shadow-sm shadow-[#E8A9B8]/15 dark:border-white/10 dark:bg-[#2B2B2B]/80 dark:shadow-[#E8A9B8]/10">
-        <h2 className="text-xl font-semibold">What I Collect</h2>
-        <ul className="space-y-2 text-sm md:text-base">
-          <li>Contact details (name, email, phone, preferred contact method)</li>
-          <li>Business and brand information relevant to your Starter Site</li>
-          <li>Project goals, page copy notes, and optional uploads (logos, photos)</li>
-          <li>Hosting preference and add-on selections</li>
-        </ul>
-      </section>
+        <div className="space-y-6 text-[#3A3A3A]">
+          <section>
+            <h2 className="text-xl font-semibold text-[#C08090] mb-3">
+              1. Information We Collect
+            </h2>
+            <p className="text-sm leading-relaxed mb-2">
+              When you use the Website Health Check tool, we collect:
+            </p>
+            <ul className="list-disc list-inside space-y-1 text-sm ml-4">
+              <li>Website URLs you submit for analysis</li>
+              <li>Payment information (processed securely through Stripe)</li>
+              <li>Basic usage data and analytics</li>
+              <li>Email address (if provided for support)</li>
+            </ul>
+          </section>
 
-      <section className="space-y-4 rounded-3xl border border-[#F4C2C2]/40 bg-white/95 p-6 shadow-sm shadow-[#E8A9B8]/15 dark:border-white/10 dark:bg-[#2B2B2B]/80 dark:shadow-[#E8A9B8]/10">
-        <h2 className="text-xl font-semibold">How It&apos;s Used</h2>
-        <ul className="space-y-2 text-sm md:text-base">
-          <li>To scope, schedule, and deliver your Starter Site project</li>
-          <li>To follow up about intake details, launch dates, and support</li>
-          <li>
-            To fulfil required paperwork (proposals, invoices, and post-launch
-            documentation)
-          </li>
-        </ul>
-      </section>
+          <section>
+            <h2 className="text-xl font-semibold text-[#C08090] mb-3">
+              2. How We Use Your Information
+            </h2>
+            <p className="text-sm leading-relaxed mb-2">
+              We use the information we collect to:
+            </p>
+            <ul className="list-disc list-inside space-y-1 text-sm ml-4">
+              <li>Provide website analysis services</li>
+              <li>Process payments and prevent fraud</li>
+              <li>Improve our service and user experience</li>
+              <li>Send important service updates (if applicable)</li>
+              <li>Respond to support inquiries</li>
+            </ul>
+          </section>
 
-      <section className="space-y-4 rounded-3xl border border-[#F4C2C2]/40 bg-white/95 p-6 shadow-sm shadow-[#E8A9B8]/15 dark:border-white/10 dark:bg-[#2B2B2B]/80 dark:shadow-[#E8A9B8]/10">
-        <h2 className="text-xl font-semibold">Storage &amp; Access</h2>
-        <p className="text-sm md:text-base">
-          Intake submissions are handled through Jotform with SSL encryption.
-          Files and form responses live securely within Jotform and are accessed
-          only by Ashley Maria and, if needed, any vetted contractors supporting
-          your Starter Site. Submissions are retained for up to 18 months for
-          project reference.
-        </p>
-        <p className="text-sm md:text-base">
-          Payment is processed securely inside the intake form via Stripe
-          Checkout. Card details never touch my servers.
-        </p>
-      </section>
+          <section>
+            <h2 className="text-xl font-semibold text-[#C08090] mb-3">
+              3. Data Storage and Retention
+            </h2>
+            <p className="text-sm leading-relaxed">
+              We do not permanently store the HTML content or analysis results
+              of websites you analyze. Website data is processed in real-time
+              and discarded after the analysis is complete. Payment information
+              is securely handled by Stripe and is not stored on our servers.
+            </p>
+          </section>
 
-      <section className="space-y-4 rounded-3xl border border-[#F4C2C2]/40 bg-white/95 p-6 shadow-sm shadow-[#E8A9B8]/15 dark:border-white/10 dark:bg-[#2B2B2B]/80 dark:shadow-[#E8A9B8]/10">
-        <h2 className="text-xl font-semibold">Your Choices</h2>
-        <ul className="space-y-2 text-sm md:text-base">
-          <li>
-            Request an update or deletion any time by emailing{" "}
-            <Link
-              href="mailto:hello@builtbyashley.com"
-              className="font-semibold text-[#E8A9B8] transition hover:text-[#D8B878]"
-            >
-              hello@builtbyashley.com
-            </Link>
-            .
-          </li>
-          <li>
-            Opt out of future email follow-ups at any time—just reply to any
-            message and let me know.
-          </li>
-          <li>
-            Need a copy of your intake or deliverables? I&apos;m happy to resend.
-          </li>
-        </ul>
-      </section>
+          <section>
+            <h2 className="text-xl font-semibold text-[#C08090] mb-3">
+              4. Third-Party Services
+            </h2>
+            <p className="text-sm leading-relaxed mb-2">
+              We use the following third-party services:
+            </p>
+            <ul className="list-disc list-inside space-y-1 text-sm ml-4">
+              <li>
+                <strong>Stripe:</strong> For secure payment processing
+              </li>
+              <li>
+                <strong>OpenAI:</strong> For AI-powered website analysis
+              </li>
+              <li>
+                <strong>Vercel:</strong> For hosting and analytics
+              </li>
+            </ul>
+            <p className="text-sm leading-relaxed mt-2">
+              These services have their own privacy policies governing how they
+              handle data.
+            </p>
+          </section>
 
-      <section className="space-y-3 rounded-3xl border border-[#F4C2C2]/40 bg-white/95 p-6 text-sm text-[#2B2B2B]/70 shadow-sm shadow-[#E8A9B8]/15 dark:border-white/10 dark:bg-[#2B2B2B]/80 dark:text-[#FFF9F6]/70 dark:shadow-[#E8A9B8]/10 md:text-base">
-        <h2 className="text-xl font-semibold text-[#2B2B2B] dark:text-[#FFF9F6]">
-          Additional Resources
-        </h2>
-        <p>
-          For more detail on Jotform&apos;s infrastructure and policies, see{" "}
-          <a
-            href="https://www.jotform.com/privacy/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-semibold text-[#E8A9B8] transition hover:text-[#D8B878]"
-          >
-            Jotform&apos;s Privacy Policy
-          </a>{" "}
-          and{" "}
-          <a
-            href="https://www.jotform.com/security/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-semibold text-[#E8A9B8] transition hover:text-[#D8B878]"
-          >
-            Security Statement
-          </a>
-          . You can also review a summary of this policy in{" "}
-          <Link
-            href={jotformPrivacyUrl}
-            className="font-semibold text-[#E8A9B8] transition hover:text-[#D8B878]"
-          >
-            plain-text form
-          </Link>
-          .
-        </p>
-      </section>
+          <section>
+            <h2 className="text-xl font-semibold text-[#C08090] mb-3">
+              5. Cookies and Tracking
+            </h2>
+            <p className="text-sm leading-relaxed">
+              We use minimal cookies and tracking technologies to improve user
+              experience and analyze usage patterns. This includes basic
+              analytics to understand how users interact with our service.
+            </p>
+          </section>
 
-      <footer className="rounded-3xl border border-[#F4C2C2]/30 bg-white/95 p-6 text-center text-sm text-[#2B2B2B]/60 shadow-sm shadow-[#E8A9B8]/10 dark:border-white/10 dark:bg-[#2B2B2B]/80 dark:text-[#FFF9F6]/60">
-        Have a question about data or privacy? Email{" "}
-        <Link
-          href="mailto:hello@builtbyashley.com"
-          className="font-semibold text-[#E8A9B8] transition hover:text-[#D8B878]"
-        >
-          hello@builtbyashley.com
-        </Link>{" "}
-        and I&apos;ll respond within one business day.
-      </footer>
+          <section>
+            <h2 className="text-xl font-semibold text-[#C08090] mb-3">
+              6. Data Security
+            </h2>
+            <p className="text-sm leading-relaxed">
+              We implement appropriate technical and organizational measures to
+              protect your data. However, no method of transmission over the
+              internet is 100% secure, and we cannot guarantee absolute
+              security.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-xl font-semibold text-[#C08090] mb-3">
+              7. Your Rights
+            </h2>
+            <p className="text-sm leading-relaxed mb-2">
+              You have the right to:
+            </p>
+            <ul className="list-disc list-inside space-y-1 text-sm ml-4">
+              <li>Access the personal information we hold about you</li>
+              <li>Request deletion of your personal information</li>
+              <li>Opt out of marketing communications</li>
+              <li>Request a copy of your data</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2 className="text-xl font-semibold text-[#C08090] mb-3">
+              8. Children's Privacy
+            </h2>
+            <p className="text-sm leading-relaxed">
+              Our service is not intended for users under the age of 13. We do
+              not knowingly collect personal information from children under 13.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-xl font-semibold text-[#C08090] mb-3">
+              9. Changes to This Policy
+            </h2>
+            <p className="text-sm leading-relaxed">
+              We may update this Privacy Policy from time to time. We will
+              notify you of any changes by posting the new policy on this page
+              and updating the "Last updated" date.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-xl font-semibold text-[#C08090] mb-3">
+              10. Contact Us
+            </h2>
+            <p className="text-sm leading-relaxed">
+              If you have questions about this Privacy Policy or how we handle
+              your data, please contact us at{" "}
+              <a
+                href="mailto:support@example.com"
+                className="text-[#C08090] hover:underline"
+              >
+                support@example.com
+              </a>
+            </p>
+          </section>
+        </div>
+
+        <div className="mt-10 pt-6 border-t border-[#F7CDD7]">
+          <p className="text-xs text-center text-[#C0C0C0]">
+            © {new Date().getFullYear()} Website Health Check. All rights
+            reserved.
+          </p>
+        </div>
+      </div>
     </main>
   );
 }
-

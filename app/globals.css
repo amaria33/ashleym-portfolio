@@ -109,3 +109,17 @@ html {
     background: #D8B878;
   }
 }
+
+@media print {
+  body {
+    background: #ffffff !important;
+  }
+
+  main {
+    box-shadow: none !important;
+  }
+
+  button {
+    display: none !important;
+  }
+}
