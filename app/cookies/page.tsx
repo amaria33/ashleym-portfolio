@@ -1,3 +1,6 @@
+import CurrentDate from "../../components/CurrentDate";
+import CurrentYear from "../../components/CurrentYear";
+
 export default function CookiesPage() {
   return (
     <main className="min-h-screen bg-[#FFF6F3] py-12 px-6">
@@ -6,7 +9,7 @@ export default function CookiesPage() {
           Cookie Policy
         </h1>
         <p className="text-sm text-[#C0C0C0] mb-8">
-          Last updated: {new Date().toLocaleDateString()}
+          Last updated: <CurrentDate />
         </p>
 
         <div className="space-y-6 text-[#3A3A3A]">
@@ -138,7 +141,7 @@ export default function CookiesPage() {
 
         <div className="mt-10 pt-6 border-t border-[#F7CDD7]">
           <p className="text-xs text-center text-[#C0C0C0]">
-            © {new Date().getFullYear()} BuiltByAshley. All rights reserved.
+            © <CurrentYear /> BuiltByAshley. All rights reserved.
           </p>
         </div>
       </div>

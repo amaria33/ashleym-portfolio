@@ -1,3 +1,6 @@
+import CurrentDate from "../../components/CurrentDate";
+import CurrentYear from "../../components/CurrentYear";
+
 export default function TermsPage() {
   return (
     <main className="min-h-screen bg-[#FFF6F3] py-12 px-6">
@@ -6,7 +9,7 @@ export default function TermsPage() {
           Terms of Service
         </h1>
         <p className="text-sm text-[#C0C0C0] mb-8">
-          Last updated: {new Date().toLocaleDateString()}
+          Last updated: <CurrentDate />
         </p>
 
         <div className="space-y-6 text-[#3A3A3A]">
@@ -125,8 +128,7 @@ export default function TermsPage() {
 
         <div className="mt-10 pt-6 border-t border-[#F7CDD7]">
           <p className="text-xs text-center text-[#C0C0C0]">
-            © {new Date().getFullYear()} Website Health Check. All rights
-            reserved.
+            © <CurrentYear /> Website Health Check. All rights reserved.
           </p>
         </div>
       </div>

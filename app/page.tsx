@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import CurrentYear from "../../components/CurrentYear";
 
 export default function Home() {
   return (
@@ -654,7 +655,7 @@ export default function Home() {
           </div>
           <div className="border-t border-[#3a3a3a] pt-8 text-center text-[#B8A9A5]">
             <p>
-              © {new Date().getFullYear()} Ashley Maria. All rights reserved.
+              © <CurrentYear /> Ashley Maria. All rights reserved.
             </p>
           </div>
         </div>
