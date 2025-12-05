@@ -114,10 +114,10 @@ export default function TermsPage() {
             <p className="text-sm leading-relaxed">
               For questions about these Terms of Service, please contact us at{" "}
               <a
-                href="mailto:support@example.com"
+                href="mailto:hello@builtbyashley.com"
                 className="text-[#C08090] hover:underline"
               >
-                support@example.com
+                hello@builtbyashley.com
               </a>
             </p>
           </section>

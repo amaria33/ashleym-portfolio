@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 
 export default function Home() {
   return (
@@ -23,27 +22,14 @@ export default function Home() {
               </h1>
               <p className="text-xl text-[#2B2B2B]/80 dark:text-[#FFF9F6]/80 leading-relaxed">
                 HR Analyst turned AI Maker & Automation Strategist. I build
-                practical, revenue-driven AI workflows and bespoke web
-                experiences — complete with hosting support — that help
-                professionals and entrepreneurs save time, launch faster, and
-                scale smarter without overwhelm.
+                practical, revenue-driven AI workflows that help professionals
+                and entrepreneurs save time, simplify operations, and scale
+                smarter.
               </p>
               <div className="flex gap-4 flex-wrap">
-                <Link
-                  href="/starter-site"
-                  className="px-8 py-4 bg-[#E8A9B8] hover:bg-[#E8A9B8]/90 text-white rounded-lg font-medium transition-all hover:scale-105 shadow-lg shadow-[#E8A9B8]/30"
-                >
-                  Claim 50% Off Starter Site
-                </Link>
-                <Link
-                  href="/templates"
-                  className="px-8 py-4 bg-white dark:bg-[#3a3a3a] text-[#2B2B2B] dark:text-[#FFF9F6] border-2 border-[#F4C2C2] dark:border-[#E8A9B8] rounded-lg font-medium hover:border-[#E8A9B8] dark:hover:border-[#D8B878] transition-all"
-                >
-                  Browse Templates
-                </Link>
                 <a
                   href="#contact"
-                  className="px-8 py-4 bg-white dark:bg-[#3a3a3a] text-[#2B2B2B] dark:text-[#FFF9F6] border-2 border-[#F4C2C2] dark:border-[#E8A9B8] rounded-lg font-medium hover:border-[#E8A9B8] dark:hover:border-[#D8B878] transition-all"
+                  className="px-8 py-4 bg-[#E8A9B8] hover:bg-[#E8A9B8]/90 text-white rounded-lg font-medium transition-all hover:scale-105 shadow-lg shadow-[#E8A9B8]/30"
                 >
                   Get In Touch
                 </a>
@@ -90,7 +76,7 @@ export default function Home() {
                   </svg>
                 </a>
                 <a
-                  href="mailto:hello@builtbyashley.com"
+                  href="mailto:ralucero@me.com"
                   className="p-3 bg-white dark:bg-[#3a3a3a] rounded-lg hover:bg-[#FFF9F6] dark:hover:bg-[#4a4a4a] transition-all shadow-sm hover:shadow-md"
                   aria-label="Email"
                 >
@@ -130,63 +116,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Limited-Time Offer Section */}
-      <section className="py-20 px-6 bg-gradient-to-br from-[#FFF9F6] via-[#FFFFFF] to-[#F4C2C2]/20">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-white dark:bg-[#2B2B2B] rounded-2xl shadow-xl p-8 md:p-12 border border-[#F4C2C2]/50">
-            <div className="text-center mb-8">
-              <span className="inline-block px-4 py-2 bg-[#D8B878]/25 text-[#D8B878] rounded-full text-sm font-semibold uppercase tracking-[0.2em] mb-4">
-                Limited-Time Offer
-              </span>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#2B2B2B] dark:text-[#FFF9F6] mb-4">
-                Guided Starter Site Launch — 50% Off While Spots Last
-              </h2>
-              <p className="text-lg text-[#2B2B2B]/70 dark:text-[#FFF9F6]/70 leading-relaxed max-w-2xl mx-auto">
-                Need a beautiful one-page website launched fast? I design,
-                write, build, and host your Starter Site so you can show up
-                online with confidence. Pay securely inside the brief intake
-                form, then we launch your site in just 7 days (backed by a
-                10-business-day guarantee).
-              </p>
-            </div>
-
-            <div className="space-y-4 mb-8">
-              <div className="flex items-start gap-3">
-                <span className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-[#D8B878] text-xs font-bold text-white flex-shrink-0">
-                  ✓
-                </span>
-                <p className="text-base text-[#2B2B2B]/80 dark:text-[#FFF9F6]/80">
-                  No DIY required—copy, layout, and launch handled for you
-                </p>
-              </div>
-              <div className="flex items-start gap-3">
-                <span className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-[#D8B878] text-xs font-bold text-white flex-shrink-0">
-                  ✓
-                </span>
-                <p className="text-base text-[#2B2B2B]/80 dark:text-[#FFF9F6]/80">
-                  Guided 7-day timeline with 30-day post-launch support
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/starter-site"
-                className="px-8 py-4 bg-white dark:bg-[#3a3a3a] text-[#2B2B2B] dark:text-[#FFF9F6] border-2 border-[#E8A9B8] rounded-lg font-medium hover:border-[#D8B878] hover:text-[#D8B878] transition-all text-center"
-              >
-                See What's Included
-              </Link>
-              <Link
-                href="/starter-site"
-                className="px-8 py-4 bg-[#E8A9B8] hover:bg-[#E8A9B8]/90 text-white rounded-lg font-medium transition-all hover:scale-105 shadow-lg shadow-[#E8A9B8]/30 text-center"
-              >
-                Book My Starter Site
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* About Section */}
       <section id="about" className="py-20 px-6 bg-white dark:bg-[#2B2B2B]">
         <div className="max-w-6xl mx-auto">
@@ -208,12 +137,6 @@ export default function Home() {
                 spent years streamlining complex systems. Now, I apply that same
                 precision to AI-powered automations — from client onboarding and
                 content creation to lead generation and data organization.
-              </p>
-              <p className="text-lg text-[#2B2B2B]/70 dark:text-[#FFF9F6]/70 leading-relaxed">
-                That same thoughtful approach powers my website creation and
-                hosting packages. I craft conversion-friendly copy, custom
-                layouts, and reliable hosting plans so your online home feels
-                effortless for you and inviting for your clients.
               </p>
               <p className="text-lg text-[#2B2B2B]/70 dark:text-[#FFF9F6]/70 leading-relaxed">
                 My goal is to bridge the gap between human potential and AI
@@ -256,10 +179,10 @@ export default function Home() {
               </div>
               <div className="p-6 bg-gradient-to-br from-[#B8A9A5]/20 to-[#B8A9A5]/40 dark:from-[#B8A9A5]/10 dark:to-[#B8A9A5]/20 rounded-xl">
                 <div className="text-3xl font-bold text-[#D8B878] dark:text-[#D8B878] mb-2">
-                  Web
+                  No-Code
                 </div>
                 <div className="text-[#2B2B2B] dark:text-[#FFF9F6] font-medium">
-                  Hosting Partner
+                  Automation Pro
                 </div>
               </div>
             </div>
@@ -419,13 +342,20 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-8">
             {/* Project 1 */}
             <div className="group bg-[#FFF9F6] dark:bg-[#3a3a3a] rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all">
-              <div className="h-48 relative overflow-hidden">
-                <Image
-                  src="/assets/bootcamp.jpeg"
-                  alt="AI Bootcamp Landing Page"
-                  fill
-                  className="object-cover"
-                />
+              <div className="h-48 bg-gradient-to-br from-[#F4C2C2] to-[#E8A9B8] flex items-center justify-center">
+                <svg
+                  className="w-20 h-20 text-white opacity-80"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                  />
+                </svg>
               </div>
               <div className="p-6">
                 <h3 className="text-2xl font-bold mb-3 text-[#2B2B2B] dark:text-[#FFF9F6] group-hover:text-[#E8A9B8] dark:group-hover:text-[#F4C2C2] transition-colors">
@@ -452,13 +382,26 @@ export default function Home() {
 
             {/* Project 2 */}
             <div className="group bg-[#FFF9F6] dark:bg-[#3a3a3a] rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all">
-              <div className="h-48 relative overflow-hidden">
-                <Image
-                  src="/assets/tripplanner.jpeg"
-                  alt="Trip Planner CrewAI"
-                  fill
-                  className="object-cover"
-                />
+              <div className="h-48 bg-gradient-to-br from-[#D8B878] to-[#B8A9A5] flex items-center justify-center">
+                <svg
+                  className="w-20 h-20 text-white opacity-80"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"
+                  />
+                </svg>
               </div>
               <div className="p-6">
                 <h3 className="text-2xl font-bold mb-3 text-[#2B2B2B] dark:text-[#FFF9F6] group-hover:text-[#D8B878] dark:group-hover:text-[#D8B878] transition-colors">
@@ -486,13 +429,20 @@ export default function Home() {
 
             {/* Project 3 */}
             <div className="group bg-[#FFF9F6] dark:bg-[#3a3a3a] rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all">
-              <div className="h-48 relative overflow-hidden">
-                <Image
-                  src="/assets/data.jpeg"
-                  alt="HR Data Visualization Dashboard"
-                  fill
-                  className="object-cover"
-                />
+              <div className="h-48 bg-gradient-to-br from-[#E8A9B8] to-[#F4C2C2] flex items-center justify-center">
+                <svg
+                  className="w-20 h-20 text-white opacity-80"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                  />
+                </svg>
               </div>
               <div className="p-6">
                 <h3 className="text-2xl font-bold mb-3 text-[#2B2B2B] dark:text-[#FFF9F6] group-hover:text-[#E8A9B8] dark:group-hover:text-[#F4C2C2] transition-colors">
@@ -520,13 +470,20 @@ export default function Home() {
 
             {/* Project 4 */}
             <div className="group bg-[#FFF9F6] dark:bg-[#3a3a3a] rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all">
-              <div className="h-48 relative overflow-hidden">
-                <Image
-                  src="/assets/resumatch.jpeg"
-                  alt="ResuMatch Chrome Extension"
-                  fill
-                  className="object-cover"
-                />
+              <div className="h-48 bg-gradient-to-br from-[#B8A9A5] to-[#D8B878] flex items-center justify-center">
+                <svg
+                  className="w-20 h-20 text-white opacity-80"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
+                  />
+                </svg>
               </div>
               <div className="p-6">
                 <h3 className="text-2xl font-bold mb-3 text-[#2B2B2B] dark:text-[#FFF9F6] group-hover:text-[#D8B878] dark:group-hover:text-[#D8B878] transition-colors">
@@ -570,7 +527,7 @@ export default function Home() {
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <a
-              href="mailto:hello@builtbyashley.com"
+              href="mailto:ralucero@me.com"
               className="px-8 py-4 bg-white text-[#E8A9B8] rounded-lg font-medium hover:bg-[#FFF9F6] transition-all shadow-lg hover:shadow-xl hover:scale-105"
             >
               Send Email
@@ -588,74 +545,8 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-6 bg-[#2B2B2B] dark:bg-black">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-8 mb-8">
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-4">
-                Services
-              </h3>
-              <ul className="space-y-2">
-                <li>
-                  <Link
-                    href="/starter-site"
-                    className="text-[#B8A9A5] hover:text-[#E8A9B8] transition-colors"
-                  >
-                    Starter Site
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/templates"
-                    className="text-[#B8A9A5] hover:text-[#E8A9B8] transition-colors"
-                  >
-                    Templates
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-4">Legal</h3>
-              <ul className="space-y-2">
-                <li>
-                  <Link
-                    href="/privacy"
-                    className="text-[#B8A9A5] hover:text-[#E8A9B8] transition-colors"
-                  >
-                    Privacy Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/terms"
-                    className="text-[#B8A9A5] hover:text-[#E8A9B8] transition-colors"
-                  >
-                    Terms of Service
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/cookies"
-                    className="text-[#B8A9A5] hover:text-[#E8A9B8] transition-colors"
-                  >
-                    Cookie Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/data-rights"
-                    className="text-[#B8A9A5] hover:text-[#E8A9B8] transition-colors"
-                  >
-                    Data Rights
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-[#3a3a3a] pt-8 text-center text-[#B8A9A5]">
-            <p>© 2025 Ashley Maria. All rights reserved.</p>
-          </div>
-        </div>
+      <footer className="py-8 px-6 bg-[#2B2B2B] dark:bg-black text-center text-[#B8A9A5]">
+        <p>© 2025 Ashley Maria. All rights reserved.</p>
       </footer>
     </div>
   );

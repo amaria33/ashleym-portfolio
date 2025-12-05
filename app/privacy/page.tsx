@@ -144,10 +144,10 @@ export default function PrivacyPage() {
               If you have questions about this Privacy Policy or how we handle
               your data, please contact us at{" "}
               <a
-                href="mailto:support@example.com"
+                href="mailto:hello@builtbyashley.com"
                 className="text-[#C08090] hover:underline"
               >
-                support@example.com
+                hello@builtbyashley.com
               </a>
             </p>
           </section>
