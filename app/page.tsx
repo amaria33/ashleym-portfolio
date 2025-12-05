@@ -653,7 +653,9 @@ export default function Home() {
             </div>
           </div>
           <div className="border-t border-[#3a3a3a] pt-8 text-center text-[#B8A9A5]">
-            <p>© 2025 Ashley Maria. All rights reserved.</p>
+            <p>
+              © {new Date().getFullYear()} Ashley Maria. All rights reserved.
+            </p>
           </div>
         </div>
       </footer>

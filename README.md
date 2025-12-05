@@ -1,159 +1,169 @@
-# Website Health Check Tool
+# BuiltByAshley - Portfolio & Website
 
-An AI-powered website analysis tool that provides instant UX, copywriting, and SEO insights. This Next.js 14 application offers both a free demo and a paid full version with complete analysis.
+**Professional Websites for Service-Based Businesses**
 
-## Features
+BuiltByAshley.com is the portfolio and business website for Ashley Maria, an HR Analyst turned AI Maker & Automation Strategist. The site showcases services, templates, and portfolio projects while providing a platform for clients to book website creation services.
 
-- 🎨 **Full UX Analysis** - Navigation, layout, and user experience review
-- ✍️ **Copy Clarity Score** - Messaging and CTA effectiveness analysis
-- 🔍 **SEO Breakdown** - Meta tags, headings, and SEO factors review
-- 📊 **Health Score** - Overall website rating (0-100)
-- 💳 **Stripe Integration** - Secure payment processing for full reports
-- 🆓 **Demo Mode** - Free limited analysis for testing
+## 🌟 About
 
-## Project Structure
+BuiltByAshley offers done-for-you website builds and DIY templates designed to help service-based businesses launch faster and convert better. Services include:
+
+- **Launch-Ready Starter Site** - Custom one-page websites designed, built, and launched in 7 days
+- **Website Templates** - Plug-and-play layouts for niche industries (Beauty, Coaches, Local Services, Realtors)
+- **AI Workflows & Automation** - Custom AI-powered solutions for business efficiency
+- **Web Hosting & Support** - Reliable hosting plans with ongoing maintenance
+
+## ✨ Features
+
+### Portfolio Showcase
+
+- Personal portfolio highlighting AI and web development projects
+- Featured projects with images and descriptions
+- Skills & technologies showcase
+- Contact section with social links
+
+### Service Pages
+
+- **Starter Site** (`/starter-site`) - Detailed service page with pricing, process, and booking
+- **Templates** (`/templates`) - Template marketplace with waitlist functionality
+- Limited-time offers and promotions
+
+### Legal & Compliance
+
+- Privacy Policy (`/privacy`)
+- Terms of Service (`/terms`)
+- Cookie Policy (`/cookies`)
+- Data Rights (`/data-rights`)
+
+## 🛠️ Technology Stack
+
+- **Framework:** Next.js 16 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **Deployment:** Vercel
+- **Analytics:** Google Tag Manager
+
+## 📁 Project Structure
 
 ```
 app/
-├── page.tsx           # Full report page (main health check tool)
-├── demo/page.tsx      # Free demo with limited results
-├── sell/page.tsx      # Sales landing page
-├── success/page.tsx   # Payment success page
-├── terms/page.tsx     # Terms of Service
-├── privacy/page.tsx   # Privacy Policy
-└── api/
-    ├── analyze/       # AI-powered website analysis endpoint
-    └── checkout/      # Stripe checkout session creation
+├── page.tsx              # Homepage (Portfolio)
+├── layout.tsx            # Root layout with GTM
+├── starter-site/         # Starter Site service page
+├── templates/            # Templates marketplace
+├── privacy/              # Privacy Policy
+├── terms/                # Terms of Service
+├── cookies/              # Cookie Policy
+└── data-rights/          # Data Rights page
+
 components/
-└── NavBar.tsx         # Global navigation component
+├── GTM.tsx               # Google Tag Manager integration
+├── NavBar.tsx            # Navigation component
+└── TemplateCard.tsx      # Template card component
+
+public/
+├── assets/               # Project images
+│   ├── bootcamp.jpeg
+│   ├── data.jpeg
+│   ├── resumatch.jpeg
+│   └── tripplanner.jpeg
+└── profile/              # Profile images
 ```
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 
 - Node.js 18+ installed
-- OpenAI API key
-- Stripe account and secret key
-
-### Environment Variables
-
-Create a `.env.local` file in the root directory with the following variables:
-
-```bash
-# OpenAI API Key for website analysis
-OPENAI_API_KEY=your_openai_api_key_here
-
-# Stripe Secret Key for payment processing
-STRIPE_SECRET_KEY=your_stripe_secret_key_here
-
-# Base URL for your application (used in Stripe redirects)
-NEXT_PUBLIC_BASE_URL=http://localhost:3000
-```
+- npm or yarn package manager
 
 ### Installation
 
-1. Install dependencies:
+1. Clone the repository:
+
+```bash
+git clone https://github.com/amaria33/webpagehealthcheck.git
+cd portfolio
+```
+
+2. Install dependencies:
 
 ```bash
 npm install
 ```
 
-2. Run the development server:
+3. Run the development server:
 
 ```bash
 npm run dev
 ```
 
-3. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-## Routes
+### Environment Variables
 
-- `/` - Full website health check tool
-- `/demo` - Free demo with limited results
-- `/sell` - Sales landing page with pricing and features
-- `/success` - Payment confirmation page
-- `/terms` - Terms of Service
+Optional - for Google Tag Manager:
+
+Create a `.env.local` file:
+
+```bash
+NEXT_PUBLIC_GTM_ID=your_gtm_id_here
+```
+
+## 🎨 Brand Colors
+
+The site uses a consistent color palette:
+
+- **Primary Pink:** `#E8A9B8`
+- **Secondary Gold:** `#D8B878`
+- **Light Pink:** `#F4C2C2`
+- **Background Cream:** `#FFF9F6`
+- **Text Dark:** `#2B2B2B`
+
+## 📄 Routes
+
+- `/` - Homepage (Portfolio)
+- `/starter-site` - Starter Site service page
+- `/templates` - Website templates marketplace
 - `/privacy` - Privacy Policy
+- `/terms` - Terms of Service
+- `/cookies` - Cookie Policy
+- `/data-rights` - Data Rights information
 
-## Brand Colors
+## 🔗 External Integrations
 
-The application uses a consistent color palette:
+- **Payhip** - Template purchases (Beauty Booking Template)
+- **Google Forms** - Waitlist signups for coming soon templates
+- **Google Tag Manager** - Analytics and tracking
 
-- Background Cream: `#FFF6F3`
-- Light Blush Pink: `#F7CDD7`
-- Rose Outline Pink: `#E7A5B5`
-- Hero Gradient Pink (mid): `#DCA0B0`
-- Hero Gradient Pink (deep): `#C08090`
-- Light Gray Text: `#C0C0C0`
-- Soft Black Text: `#3A3A3A`
-- Accent Gold: `#D6B36A`
+## 📦 Build & Deploy
 
-## API Endpoints
+### Build for Production
 
-### POST `/api/analyze`
-
-Analyzes a website's HTML and returns UX, copy, and SEO insights.
-
-**Request Body:**
-
-```json
-{
-  "url": "https://example.com"
-}
+```bash
+npm run build
 ```
 
-**Response:**
+### Deploy to Vercel
 
-```json
-{
-  "score": 85,
-  "ux": "UX analysis text...",
-  "copy": "Copy analysis text...",
-  "seo": "SEO analysis text...",
-  "recommendations": [{ "item": "Recommendation text", "impact": "high" }]
-}
-```
-
-### POST `/api/checkout`
-
-Creates a Stripe Checkout session for purchasing the full report.
-
-**Response:**
-
-```json
-{
-  "url": "https://checkout.stripe.com/..."
-}
-```
-
-## Deployment
-
-### Vercel (Recommended)
-
-1. Push your code to GitHub
-2. Import your repository in Vercel
-3. Add environment variables in Vercel dashboard
+1. Push code to GitHub
+2. Import repository in Vercel
+3. Add environment variables (if using GTM)
 4. Deploy
 
-### Environment Variables for Production
+The site is optimized for Vercel deployment with automatic builds and deployments on push to main branch.
 
-Make sure to set these in your hosting platform:
+## 📝 License
 
-- `OPENAI_API_KEY`
-- `STRIPE_SECRET_KEY`
-- `NEXT_PUBLIC_BASE_URL` (your production URL)
+© {new Date().getFullYear()} BuiltByAshley. All rights reserved.
 
-## Technology Stack
+## 👤 Contact
 
-- **Framework:** Next.js 14 (App Router)
-- **Language:** TypeScript
-- **Styling:** Tailwind CSS
-- **AI:** OpenAI GPT-4
-- **Payments:** Stripe
-- **Deployment:** Vercel
+- **Website:** [builtbyashley.com](https://builtbyashley.com)
+- **Email:** hello@builtbyashley.com
+- **LinkedIn:** [linkedin.com/in/ashley-maria](https://www.linkedin.com/in/ashley-maria)
+- **GitHub:** [github.com/amaria33](https://github.com/amaria33)
 
-## License
+---
 
-This project is set up as a digital product for sale.
-# webpagehealthcheck
+Built with ❤️ by Ashley Maria
