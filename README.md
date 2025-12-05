@@ -82,7 +82,7 @@ public/
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/amaria33/webpagehealthcheck.git
+git clone https://github.com/amaria33/ashleym-portfolio.git
 cd portfolio
 ```
 
