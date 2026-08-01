@@ -88,15 +88,19 @@
   function updateOrderSummary() {
     if (!summaryEl || !totalEl) return;
     const tier = (tierSelect && tierSelect.value) || "";
+    const directPay = document.getElementById("direct-pay");
+    const directPayWrap = document.getElementById("direct-pay-wrap");
 
     if (!tier || prices[tier] == null) {
       summaryEl.hidden = true;
       if (submitBtn) submitBtn.textContent = "Submit order & pay with Stripe";
+      if (directPayWrap) directPayWrap.hidden = true;
       return;
     }
 
     const labels = { starter: "Starter", career: "Career", pro: "Pro" };
     const total = prices[tier];
+    const stripeUrl = stripeUrlFor(tier);
     summaryEl.hidden = false;
     summaryEl.querySelector("[data-lines]").innerHTML =
       "<li>" + labels[tier] + " — " + money(total) + "</li>";
@@ -107,6 +111,13 @@
       subjectInput.value =
         "Resume Optimizer — New order (" + tier + " · " + money(total) + ")";
     }
+    if (directPay && directPayWrap && stripeUrl) {
+      directPay.href = stripeUrl;
+      directPay.textContent = "Open Stripe checkout for " + money(total);
+      directPayWrap.hidden = false;
+    } else if (directPayWrap) {
+      directPayWrap.hidden = true;
+    }
   }
 
   function showStatus(el, message, isError) {
@@ -116,23 +127,28 @@
     el.classList.toggle("error", Boolean(isError));
   }
 
+  function stripeUrlFor(tier) {
+    return ((config.stripeLinks || {})[tier] || "").trim();
+  }
+
   updateOrderSummary();
 
   if (form) {
     form.addEventListener("submit", function (event) {
+      // Never wait on Formspree for checkout — that was stranding users on
+      // "Submitting order…". Send details in the background, then open Stripe.
+      event.preventDefault();
+
       const tier = (tierSelect && tierSelect.value) || "";
       const total = prices[tier] || 0;
-      const hasBuyButton = Boolean((config.stripeBuyButtons || {})[tier]);
-      const hasPaymentLink = Boolean((config.stripeLinks || {})[tier]);
+      const paymentUrl = stripeUrlFor(tier) || payUrlFor(tier);
 
       if (!tier) {
-        event.preventDefault();
         showStatus(statusEl, "Please select a package.", true);
         return;
       }
 
-      if (!hasBuyButton && !hasPaymentLink) {
-        event.preventDefault();
+      if (!stripeUrlFor(tier) && !payUrlFor(tier)) {
         showStatus(
           statusEl,
           "That package isn’t available for checkout yet. Email " +
@@ -143,7 +159,6 @@
         return;
       }
 
-      // Native Formspree POST (works with reCAPTCHA). Then redirects to pay page.
       if (nextInput) nextInput.value = payUrlFor(tier);
       if (subjectInput) {
         subjectInput.value =
@@ -151,9 +166,27 @@
       }
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.textContent = "Sending order…";
+        submitBtn.textContent = "Opening checkout…";
       }
-      showStatus(statusEl, "Submitting your order details…");
+      showStatus(statusEl, "Opening Stripe checkout…");
+
+      // Best-effort order email — do not block payment if Formspree fails
+      try {
+        const endpoint = form.getAttribute("action");
+        if (endpoint) {
+          fetch(endpoint, {
+            method: "POST",
+            body: new FormData(form),
+            headers: { Accept: "application/json" },
+            mode: "cors",
+            keepalive: true,
+          }).catch(function () {});
+        }
+      } catch (err) {
+        /* ignore */
+      }
+
+      window.location.href = paymentUrl;
     });
   }
 })();
