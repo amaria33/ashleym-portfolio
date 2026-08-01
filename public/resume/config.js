@@ -20,15 +20,15 @@ window.RESUME_CONFIG = {
   // Prefer Buy Button when set; otherwise Payment Link redirect
   stripeBuyButtons: {
     starter: "buy_btn_1TzSdMFTmTwKXbYCA26zTkoQ", // $39.50
-    career: "",
-    pro: "",
+    career: "buy_btn_1TzSfKFTmTwKXbYClJEbKPfp", // $74.50
+    pro: "buy_btn_1TzSg0FTmTwKXbYCJDVnSicf", // $124.50
   },
 
-  // Stripe Payment Links — fallback / packages without a buy button yet
+  // Stripe Payment Links — unused while Buy Buttons are set
   stripeLinks: {
-    starter: "", // using Buy Button above
-    career: "https://buy.stripe.com/bJecN580FcU230TevjaMU02", // $74.50
-    pro: "https://buy.stripe.com/4gMeVdep38DM30TgDraMU03", // $124.50
+    starter: "",
+    career: "",
+    pro: "",
     "template-pack": "", // coming soon
     bundle: "", // coming soon
   },
