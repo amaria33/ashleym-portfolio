@@ -173,6 +173,65 @@ nav a {
   animation: rise 1s ease both 0.1s;
 }
 
+.countdown {
+  margin: 0 0 1rem;
+  max-width: 22rem;
+  animation: rise 1s ease both 0.12s;
+}
+
+.countdown-label {
+  margin: 0 0 0.45rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--mint-deep);
+}
+
+.countdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.4rem;
+}
+
+.countdown-grid div {
+  display: grid;
+  gap: 0.1rem;
+  justify-items: center;
+  padding: 0.5rem 0.25rem;
+  background: rgba(15, 23, 20, 0.92);
+  color: #f3faf6;
+}
+
+.countdown-grid strong {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--mint);
+  line-height: 1;
+}
+
+.countdown-grid span {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(243, 250, 246, 0.65);
+}
+
+.countdown.is-ended .countdown-label {
+  color: var(--muted);
+}
+
+.countdown.is-ended .countdown-grid div {
+  background: rgba(15, 23, 20, 0.45);
+}
+
+.countdown.is-ended .countdown-grid strong {
+  color: #c5d5cb;
+}
+
 .cta-row {
   display: flex;
   flex-wrap: wrap;
@@ -577,6 +636,98 @@ h2 {
   margin-top: 0.35rem;
 }
 
+.upsell-band {
+  margin-top: 1.35rem;
+  padding: 1.15rem 1.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 2px solid var(--mint-deep);
+  background: rgba(61, 207, 142, 0.12);
+}
+
+.upsell-band h3 {
+  font-family: var(--font-display);
+  margin: 0.2rem 0 0.35rem;
+  font-size: 1.25rem;
+}
+
+.upsell-band p {
+  margin: 0;
+  color: var(--ink-soft);
+  max-width: 56ch;
+}
+
+.upsell-band .eyebrow {
+  margin-bottom: 0;
+}
+
+.upsell-check {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.7rem;
+  align-items: start;
+  padding: 0.85rem 0.95rem;
+  border-radius: 10px;
+  border: 1.5px solid rgba(31, 154, 98, 0.35);
+  background: rgba(61, 207, 142, 0.1);
+  font-weight: 500;
+}
+
+.upsell-check input {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-top: 0.2rem;
+}
+
+.upsell-check strong {
+  display: block;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.upsell-check-desc {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.jd-links-wrap {
+  animation: rise 0.35s ease both;
+}
+
+.freebie-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.freebie-grid .section-head {
+  margin-bottom: 0;
+}
+
+.freebie-form {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1.15rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-top: 2px solid var(--ink);
+}
+
+.freebie-toolbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.freebie-consent {
+  font-size: 0.84rem;
+}
+
 .template-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -892,8 +1043,18 @@ textarea:focus {
   .template-row,
   .form-grid,
   .steps,
-  .about-grid {
+  .about-grid,
+  .freebie-grid {
     grid-template-columns: 1fr;
+  }
+
+  .upsell-band {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .upsell-band .btn {
+    width: 100%;
   }
 
   nav a:not(.nav-cta) {

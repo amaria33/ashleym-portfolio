@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your checklist is ready | Resume Optimizer</title>
+    <meta name="robots" content="noindex" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Syne:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/resume/styles.css" />
+  </head>
+  <body>
+    <div class="atmosphere" aria-hidden="true"></div>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="/resume/">
+          <span class="brand-name">Resume Optimizer</span>
+          <span class="brand-by">by BuiltByAshley</span>
+        </a>
+        <nav>
+          <a href="/resume/#order" class="nav-cta">Get 50% off</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="section">
+      <div class="shell" style="max-width: 560px">
+        <div class="section-head">
+          <p class="eyebrow">You’re in</p>
+          <h2>Check your email for the PDF</h2>
+          <p class="section-lede">
+            We also started your download below. If it didn’t start, use the button.
+          </p>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 1rem">
+          <a class="btn btn-primary" id="pdf-link" href="/resume/ats-checklist.pdf" download="ATS-Resume-Checklist.pdf">
+            Download PDF
+          </a>
+          <a class="btn btn-ghost" href="/resume/#order">Get 50% off a rewrite</a>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        var link = document.getElementById("pdf-link");
+        if (!link) return;
+        window.setTimeout(function () {
+          link.click();
+        }, 400);
+      })();
+    </script>
+  </body>
+</html>

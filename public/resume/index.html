@@ -33,6 +33,7 @@
         </a>
         <nav>
           <a href="#packages">Packages</a>
+          <a href="#freebie">Free checklist</a>
           <a href="#faq">FAQ</a>
           <a href="#order" class="nav-cta">Get 50% off</a>
         </nav>
@@ -43,13 +44,27 @@
       <section class="hero">
         <div class="shell hero-grid">
           <div class="hero-copy">
-            <p class="offer-pill">Launch offer · Code RESUME50 · 50% off</p>
+            <p class="offer-pill">Launch offer · Code RESUME50 · 50% off · Ends Aug 15</p>
             <p class="brand-mark">Resume Optimizer</p>
             <h1>Get past ATS. Get the interview.</h1>
             <p class="lede">
               Professional resume rewrites for entry, mid, and senior roles —
               built around the job you want.
             </p>
+            <div
+              class="countdown"
+              id="sale-countdown"
+              data-end="2026-08-15T23:59:59"
+              aria-live="polite"
+            >
+              <p class="countdown-label">50% off ends in</p>
+              <div class="countdown-grid">
+                <div><strong data-unit="days">--</strong><span>days</span></div>
+                <div><strong data-unit="hours">--</strong><span>hrs</span></div>
+                <div><strong data-unit="mins">--</strong><span>min</span></div>
+                <div><strong data-unit="secs">--</strong><span>sec</span></div>
+              </div>
+            </div>
             <div class="cta-row">
               <a class="btn btn-primary" href="#order">Start your order</a>
               <a class="btn btn-ghost" href="#packages">See packages</a>
@@ -57,7 +72,7 @@
             <ul class="hero-proof">
               <li>ATS-optimized formatting</li>
               <li>Role-matched keywords</li>
-              <li>3–5 day delivery</li>
+              <li>3–5 day delivery · rush available</li>
             </ul>
           </div>
           <div class="hero-visual" aria-hidden="true">
@@ -94,7 +109,8 @@
             <p class="eyebrow">Packages</p>
             <h2>Pricing that scales with your career</h2>
             <p class="section-lede">
-              Limited launch pricing with code <strong>RESUME50</strong>. Pick your tier and checkout in minutes.
+              Launch pricing with code <strong>RESUME50</strong> — ends <strong>Aug 15</strong>.
+              Pick your tier and checkout in minutes.
             </p>
           </div>
 
@@ -157,6 +173,18 @@
               </button>
             </article>
           </div>
+
+          <aside class="upsell-band" aria-labelledby="upsell-title">
+            <div class="upsell-copy">
+              <p class="eyebrow">Add-on</p>
+              <h3 id="upsell-title">JD Tailoring Pack — $29</h3>
+              <p>
+                Applying to more than one role? Get <strong>2 extra resume versions</strong>, each
+                tuned to a specific job description (keywords, summary, and top bullets).
+              </p>
+            </div>
+            <a class="btn btn-primary" href="#order">Add it at checkout</a>
+          </aside>
         </div>
       </section>
 
@@ -206,7 +234,7 @@
               <span>03</span>
               <div>
                 <h3>Review &amp; apply</h3>
-                <p>Get Word + PDF in 3–5 days after payment, plus included revisions.</p>
+                <p>Get Word + PDF in 3–5 days after payment (or 24–48 hrs with rush), plus included revisions.</p>
               </div>
             </li>
           </ol>
@@ -217,7 +245,68 @@
         </div>
       </section>
 
-      <section id="order" class="section section-alt">
+      <section id="freebie" class="section section-alt">
+        <div class="shell freebie-grid">
+          <div class="section-head">
+            <p class="eyebrow">Free PDF</p>
+            <h2>ATS checklist + bullet formula</h2>
+            <p class="section-lede">
+              A quick pre-apply PDF so you stop making the formatting and wording mistakes
+              that get resumes filtered out. Drop your email and download it instantly.
+            </p>
+          </div>
+
+          <form
+            id="freebie-form"
+            class="freebie-form"
+            action="https://formsubmit.co/hello@builtbyashley.com"
+            method="POST"
+          >
+            <input type="hidden" name="_subject" value="Resume Optimizer — Freebie signup" />
+            <input type="hidden" name="_template" value="table" />
+            <input
+              type="hidden"
+              name="_next"
+              value="https://www.builtbyashley.com/resume/thanks-freebie.html"
+            />
+            <input
+              type="hidden"
+              name="_autoresponse"
+              value="Hi! Here's your free ATS Resume Checklist + Bullet Formula:
+
+https://www.builtbyashley.com/resume/ats-checklist.pdf
+
+Want a full rewrite? Use code RESUME50 for 50% off (ends Aug 15):
+https://www.builtbyashley.com/resume
+
+— Ashley / BuiltByAshley"
+            />
+            <label>
+              First name
+              <input name="name" type="text" required autocomplete="given-name" placeholder="Ashley" />
+            </label>
+            <label>
+              Email
+              <input name="email" type="email" required autocomplete="email" placeholder="you@email.com" />
+            </label>
+            <label class="consent freebie-consent">
+              <input name="consent" type="checkbox" value="yes" required />
+              <span>
+                Send me the free PDF checklist. I agree to the
+                <a href="https://www.builtbyashley.com/privacy" target="_blank" rel="noopener">Privacy Policy</a>.
+              </span>
+            </label>
+            <button type="submit" class="btn btn-primary btn-wide" id="freebie-btn">
+              Email me the free PDF
+            </button>
+            <p class="fineprint">
+              You’ll get the PDF by email, plus an instant download page. No spam — occasional resume tips only.
+            </p>
+          </form>
+        </div>
+      </section>
+
+      <section id="order" class="section">
         <div class="shell">
           <div class="section-head">
             <p class="eyebrow">Checkout</p>
@@ -291,7 +380,34 @@
               <input name="deadline" type="text" placeholder="e.g. Friday, or standard 3–5 days" />
             </label>
 
-            <p class="coming-soon-note rush-note">Rush delivery (24–48 hrs) — coming soon</p>
+            <label class="upsell-check">
+              <input id="jd-pack" name="jd_pack" type="checkbox" value="yes" />
+              <span>
+                <strong>Add JD Tailoring Pack — $29</strong>
+                <span class="upsell-check-desc">
+                  2 extra resume versions, each matched to a specific job description.
+                </span>
+              </span>
+            </label>
+            <label id="jd-links-wrap" class="jd-links-wrap" hidden>
+              Extra job description links for the JD pack
+              <textarea
+                id="jd_extra_links"
+                name="jd_extra_links"
+                rows="2"
+                placeholder="Paste 2 job links for the extra versions"
+              ></textarea>
+            </label>
+
+            <label class="upsell-check">
+              <input id="rush" name="rush" type="checkbox" value="yes" />
+              <span>
+                <strong>Rush delivery — $29</strong>
+                <span class="upsell-check-desc">
+                  Get your files in 24–48 hours instead of the standard 3–5 days.
+                </span>
+              </span>
+            </label>
 
             <div class="legal-notice">
               <p>
@@ -346,8 +462,19 @@
               <p>An ATS-friendly resume in Word + PDF. Career and Pro add LinkedIn support; Pro also includes a cover letter.</p>
             </details>
             <details>
+              <summary>What’s the JD Tailoring Pack?</summary>
+              <p>
+                A $29 add-on for 2 extra resume versions tuned to specific job descriptions —
+                useful when you’re applying to more than one role. Add it at checkout; you’ll get a
+                separate $29 payment link if you select it.
+              </p>
+            </details>
+            <details>
               <summary>How fast is delivery?</summary>
-              <p>Standard turnaround is 3–5 days after payment. Rush delivery is coming soon.</p>
+              <p>
+                Standard turnaround is 3–5 days after payment. Need it sooner? Add rush delivery
+                for $29 and get your files in 24–48 hours.
+              </p>
             </details>
             <details>
               <summary>What do you need from me?</summary>
