@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3K Tracker</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="googlebot" content="noindex, nofollow" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Syne:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #0f1714;
+        --ink-soft: #24352e;
+        --mint: #3dcf8e;
+        --mint-deep: #1f9a62;
+        --line: rgba(15, 23, 20, 0.12);
+        --muted: #40564c;
+        --shell: 920px;
+        --gutter: clamp(1.25rem, 4vw, 2.5rem);
+        --font-display: "Syne", sans-serif;
+        --font-body: "DM Sans", sans-serif;
+        --panel: rgba(255, 255, 255, 0.72);
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--font-body);
+        color: var(--ink);
+        background:
+          radial-gradient(1000px 520px at 8% -8%, rgba(61, 207, 142, 0.22), transparent 55%),
+          radial-gradient(800px 420px at 95% 5%, rgba(36, 53, 46, 0.12), transparent 50%),
+          linear-gradient(180deg, #f4f8f5 0%, #e7efe9 45%, #f7faf8 100%);
+        min-height: 100vh;
+        line-height: 1.5;
+      }
+
+      .atmosphere {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image: radial-gradient(rgba(15, 23, 20, 0.035) 0.7px, transparent 0.7px);
+        background-size: 3px 3px;
+        opacity: 0.5;
+        z-index: 0;
+      }
+
+      .shell {
+        position: relative;
+        z-index: 1;
+        width: min(100% - (var(--gutter) * 2), var(--shell));
+        margin: 0 auto;
+        padding: clamp(1.5rem, 4vw, 2.5rem) 0 3.5rem;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        animation: rise 0.7s ease both;
+      }
+
+      .eyebrow {
+        margin: 0;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--mint-deep);
+      }
+
+      .topbar time {
+        font-size: 0.85rem;
+        color: var(--muted);
+        font-weight: 500;
+      }
+
+      h1 {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: clamp(2.4rem, 7vw, 4rem);
+        letter-spacing: -0.045em;
+        line-height: 0.95;
+        margin: 0 0 0.45rem;
+        animation: rise 0.8s ease both 0.05s;
+      }
+
+      .lede {
+        margin: 0 0 1.75rem;
+        color: var(--muted);
+        max-width: 40ch;
+        animation: rise 0.85s ease both 0.1s;
+      }
+
+      .board {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        animation: rise 0.9s ease both 0.15s;
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        backdrop-filter: blur(10px);
+        padding: 1.25rem 1.35rem;
+      }
+
+      .panel h2 {
+        margin: 0 0 1rem;
+        font-family: var(--font-display);
+        font-size: 1.05rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      .ring-wrap {
+        display: grid;
+        place-items: center;
+        margin: 0.25rem 0 1rem;
+      }
+
+      .ring {
+        --pct: 0;
+        width: min(220px, 70vw);
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at center, #f7faf8 62%, transparent 63%),
+          conic-gradient(var(--mint) calc(var(--pct) * 1%), rgba(15, 23, 20, 0.1) 0);
+        display: grid;
+        place-items: center;
+        transition: background 0.5s ease;
+      }
+
+      .ring-inner {
+        text-align: center;
+        padding: 0.5rem;
+      }
+
+      .ring-inner strong {
+        display: block;
+        font-family: var(--font-display);
+        font-size: clamp(1.8rem, 5vw, 2.35rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1;
+      }
+
+      .ring-inner span {
+        display: block;
+        margin-top: 0.35rem;
+        font-size: 0.78rem;
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.55rem;
+      }
+
+      .stat {
+        padding: 0.7rem 0.55rem;
+        background: rgba(15, 23, 20, 0.04);
+        text-align: center;
+      }
+
+      .stat b {
+        display: block;
+        font-family: var(--font-display);
+        font-size: 1.05rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+
+      .stat span {
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .bar-track {
+        margin-top: 1rem;
+        height: 10px;
+        background: rgba(15, 23, 20, 0.08);
+        overflow: hidden;
+      }
+
+      .bar-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--mint-deep), var(--mint));
+        transition: width 0.55s ease;
+      }
+
+      .countdown-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.45rem;
+        margin-bottom: 1rem;
+      }
+
+      .countdown-grid div {
+        display: grid;
+        gap: 0.15rem;
+        justify-items: center;
+        padding: 0.7rem 0.3rem;
+        background: rgba(15, 23, 20, 0.92);
+        color: #f3faf6;
+      }
+
+      .countdown-grid strong {
+        font-family: var(--font-display);
+        font-size: 1.35rem;
+        font-weight: 800;
+        color: var(--mint);
+        line-height: 1;
+      }
+
+      .countdown-grid span {
+        font-size: 0.66rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        opacity: 0.8;
+      }
+
+      .pace {
+        margin: 0;
+        font-size: 0.92rem;
+        color: var(--ink-soft);
+      }
+
+      .pace strong {
+        color: var(--mint-deep);
+      }
+
+      .days-strip {
+        display: grid;
+        grid-template-columns: repeat(31, minmax(0, 1fr));
+        gap: 3px;
+        margin-top: 1.1rem;
+      }
+
+      .day-dot {
+        aspect-ratio: 1;
+        background: rgba(15, 23, 20, 0.08);
+        transition: background 0.25s ease, transform 0.2s ease;
+      }
+
+      .day-dot.filled {
+        background: var(--mint);
+      }
+
+      .day-dot.today {
+        outline: 2px solid var(--ink);
+        outline-offset: 1px;
+      }
+
+      .day-dot.future {
+        opacity: 0.45;
+      }
+
+      .log-panel {
+        animation: rise 0.95s ease both 0.2s;
+      }
+
+      .log-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 1rem;
+        margin-bottom: 0.85rem;
+      }
+
+      .log-head h2 {
+        margin: 0;
+      }
+
+      .log-head p {
+        margin: 0;
+        font-size: 0.82rem;
+        color: var(--muted);
+      }
+
+      .add-form {
+        display: grid;
+        grid-template-columns: 8rem 1fr auto;
+        gap: 0.55rem;
+        margin-bottom: 1rem;
+        align-items: end;
+      }
+
+      .field {
+        display: grid;
+        gap: 0.3rem;
+      }
+
+      .field label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .field select,
+      .field input {
+        width: 100%;
+        border: 1px solid var(--line);
+        background: #fff;
+        padding: 0.6rem 0.7rem;
+        font: inherit;
+        font-weight: 600;
+        color: var(--ink);
+        outline: none;
+      }
+
+      .amount-field {
+        position: relative;
+      }
+
+      .amount-field::before {
+        content: "$";
+        position: absolute;
+        left: 0.7rem;
+        bottom: 0.62rem;
+        color: var(--muted);
+        font-weight: 600;
+        pointer-events: none;
+      }
+
+      .amount-field input {
+        padding-left: 1.4rem;
+      }
+
+      .field select:focus,
+      .field input:focus {
+        border-color: var(--mint-deep);
+        box-shadow: 0 0 0 3px rgba(61, 207, 142, 0.18);
+      }
+
+      .add-form .btn {
+        height: 2.7rem;
+        align-self: end;
+      }
+
+      .empty-log {
+        margin: 0;
+        padding: 1.1rem 0.85rem;
+        background: rgba(15, 23, 20, 0.035);
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .day-list:empty {
+        display: none;
+      }
+
+      .day-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 0.4rem;
+      }
+
+      .day-row {
+        display: grid;
+        grid-template-columns: 5.5rem 1fr auto auto;
+        gap: 0.65rem;
+        align-items: center;
+        padding: 0.55rem 0.7rem;
+        background: rgba(15, 23, 20, 0.035);
+        border: 1px solid transparent;
+        transition: border-color 0.2s ease, background 0.2s ease;
+      }
+
+      .day-row.today {
+        border-color: rgba(61, 207, 142, 0.55);
+        background: rgba(61, 207, 142, 0.1);
+      }
+
+      .day-label {
+        font-weight: 700;
+        font-size: 0.88rem;
+        color: var(--ink-soft);
+      }
+
+      .day-label small {
+        display: block;
+        font-weight: 500;
+        font-size: 0.7rem;
+        color: var(--muted);
+      }
+
+      .day-input-wrap {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+
+      .day-input-wrap::before {
+        content: "$";
+        position: absolute;
+        left: 0.65rem;
+        color: var(--muted);
+        font-weight: 600;
+        pointer-events: none;
+      }
+
+      .day-input {
+        width: 100%;
+        border: 1px solid var(--line);
+        background: #fff;
+        padding: 0.5rem 0.65rem 0.5rem 1.35rem;
+        font: inherit;
+        font-weight: 600;
+        color: var(--ink);
+        outline: none;
+      }
+
+      .day-input:focus {
+        border-color: var(--mint-deep);
+        box-shadow: 0 0 0 3px rgba(61, 207, 142, 0.18);
+      }
+
+      .day-cum {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 0.95rem;
+        min-width: 4.5rem;
+        text-align: right;
+        color: var(--ink-soft);
+      }
+
+      .remove-day {
+        appearance: none;
+        border: 0;
+        background: transparent;
+        color: var(--muted);
+        font: inherit;
+        font-size: 0.78rem;
+        font-weight: 700;
+        cursor: pointer;
+        padding: 0.35rem 0.2rem;
+      }
+
+      .remove-day:hover {
+        color: var(--ink);
+      }
+
+      .form-error {
+        margin: -0.4rem 0 0.85rem;
+        font-size: 0.82rem;
+        color: #9a2f2f;
+        min-height: 1.2em;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-top: 1rem;
+      }
+
+      .btn {
+        appearance: none;
+        border: 0;
+        cursor: pointer;
+        font: inherit;
+        font-weight: 700;
+        padding: 0.65rem 1rem;
+        text-decoration: none;
+      }
+
+      .btn-primary {
+        background: var(--ink);
+        color: #fff;
+      }
+
+      .btn-ghost {
+        background: transparent;
+        color: var(--ink-soft);
+        border: 1px solid var(--line);
+      }
+
+      .note {
+        margin: 1rem 0 0;
+        font-size: 0.78rem;
+        color: var(--muted);
+      }
+
+      .hit {
+        color: var(--mint-deep) !important;
+      }
+
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      @media (max-width: 760px) {
+        .board {
+          grid-template-columns: 1fr;
+        }
+
+        .stats {
+          grid-template-columns: 1fr;
+        }
+
+        .add-form {
+          grid-template-columns: 1fr;
+        }
+
+        .day-row {
+          grid-template-columns: 4.5rem 1fr auto;
+        }
+
+        .day-cum {
+          font-size: 0.82rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="atmosphere" aria-hidden="true"></div>
+
+    <main class="shell">
+      <div class="topbar">
+        <p class="eyebrow">Private · August 2026</p>
+        <time id="today-label"></time>
+      </div>
+
+      <h1>3K by End of the Month</h1>
+      <p class="lede">
+        Track every dollar toward $3,000. Log what you made at end of day —
+        the ring, pace, and August countdown update with you.
+      </p>
+
+      <div class="board">
+        <section class="panel" aria-labelledby="progress-title">
+          <h2 id="progress-title">Progress</h2>
+          <div class="ring-wrap">
+            <div class="ring" id="ring" style="--pct: 0" aria-hidden="true">
+              <div class="ring-inner">
+                <strong id="total-made">$0</strong>
+                <span id="pct-label">0% of $3,000</span>
+              </div>
+            </div>
+          </div>
+          <div class="stats">
+            <div class="stat">
+              <b id="stat-left">$3,000</b>
+              <span>to go</span>
+            </div>
+            <div class="stat">
+              <b id="stat-days">31</b>
+              <span>days left</span>
+            </div>
+            <div class="stat">
+              <b id="stat-pace">$97</b>
+              <span>/ day needed</span>
+            </div>
+          </div>
+          <div class="bar-track" aria-hidden="true">
+            <div class="bar-fill" id="bar-fill"></div>
+          </div>
+          <div class="days-strip" id="days-strip" aria-hidden="true"></div>
+        </section>
+
+        <section class="panel" aria-labelledby="countdown-title">
+          <h2 id="countdown-title">August countdown</h2>
+          <div class="countdown-grid" id="month-countdown" aria-live="polite">
+            <div><strong data-unit="days">--</strong><span>days</span></div>
+            <div><strong data-unit="hours">--</strong><span>hrs</span></div>
+            <div><strong data-unit="mins">--</strong><span>min</span></div>
+            <div><strong data-unit="secs">--</strong><span>sec</span></div>
+          </div>
+          <p class="pace" id="pace-copy">
+            Hit <strong>$97/day</strong> to land $3K by Aug 31.
+          </p>
+          <div class="actions">
+            <button type="button" class="btn btn-primary" id="focus-add">Log a day</button>
+            <button type="button" class="btn btn-ghost" id="clear-log">Clear log</button>
+          </div>
+          <p class="note">Saved only on this device. Not linked from the public site.</p>
+        </section>
+      </div>
+
+      <section class="panel log-panel" aria-labelledby="log-title">
+        <div class="log-head">
+          <div>
+            <h2 id="log-title">End-of-day amounts</h2>
+            <p>Days only show up after you add them. Running total updates on the right.</p>
+          </div>
+        </div>
+
+        <form class="add-form" id="add-form">
+          <div class="field">
+            <label for="add-day">Day</label>
+            <select id="add-day" required></select>
+          </div>
+          <div class="field amount-field">
+            <label for="add-amount">Amount made</label>
+            <input
+              id="add-amount"
+              type="number"
+              min="0"
+              step="0.01"
+              inputmode="decimal"
+              placeholder="0"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+        <p class="form-error" id="form-error" aria-live="polite"></p>
+
+        <ul class="day-list" id="day-list"></ul>
+        <p class="empty-log" id="empty-log">No days logged yet. Add today's amount above.</p>
+      </section>
+    </main>
+
+    <script>
+      (function () {
+        var GOAL = 3000;
+        var YEAR = 2026;
+        var MONTH = 7; // August (0-indexed)
+        var DAYS_IN_AUG = 31;
+        var STORAGE_KEY = "ro_3k_aug_2026";
+        var monthEnd = new Date(YEAR, MONTH, DAYS_IN_AUG, 23, 59, 59, 999);
+
+        var weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        var months = [
+          "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+        ];
+
+        function money(n) {
+          var rounded = Math.round(n * 100) / 100;
+          return (
+            "$" +
+            rounded.toLocaleString("en-US", {
+              minimumFractionDigits: rounded % 1 === 0 ? 0 : 2,
+              maximumFractionDigits: 2,
+            })
+          );
+        }
+
+        function loadAmounts() {
+          try {
+            var raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) return {};
+            var parsed = JSON.parse(raw);
+            return parsed && typeof parsed === "object" ? parsed : {};
+          } catch (e) {
+            return {};
+          }
+        }
+
+        function saveAmounts(map) {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(map));
+        }
+
+        var amounts = loadAmounts();
+        var listEl = document.getElementById("day-list");
+        var emptyEl = document.getElementById("empty-log");
+        var stripEl = document.getElementById("days-strip");
+        var ringEl = document.getElementById("ring");
+        var barEl = document.getElementById("bar-fill");
+        var totalEl = document.getElementById("total-made");
+        var pctEl = document.getElementById("pct-label");
+        var leftEl = document.getElementById("stat-left");
+        var daysEl = document.getElementById("stat-days");
+        var paceEl = document.getElementById("stat-pace");
+        var paceCopy = document.getElementById("pace-copy");
+        var todayLabel = document.getElementById("today-label");
+        var daySelect = document.getElementById("add-day");
+        var amountInput = document.getElementById("add-amount");
+        var formError = document.getElementById("form-error");
+        var addForm = document.getElementById("add-form");
+
+        function todayParts() {
+          var now = new Date();
+          return {
+            now: now,
+            y: now.getFullYear(),
+            m: now.getMonth(),
+            d: now.getDate(),
+          };
+        }
+
+        function isToday(day) {
+          var t = todayParts();
+          return t.y === YEAR && t.m === MONTH && t.d === day;
+        }
+
+        function isFuture(day) {
+          var t = todayParts();
+          if (t.y < YEAR || (t.y === YEAR && t.m < MONTH)) return true;
+          if (t.y === YEAR && t.m === MONTH) return day > t.d;
+          return false;
+        }
+
+        function defaultDay() {
+          var t = todayParts();
+          if (t.y === YEAR && t.m === MONTH) return t.d;
+          if (t.now < new Date(YEAR, MONTH, 1)) return 1;
+          return DAYS_IN_AUG;
+        }
+
+        function daysLeftInAugust() {
+          var t = todayParts();
+          if (t.now > monthEnd) return 0;
+          if (t.y < YEAR || (t.y === YEAR && t.m < MONTH)) return DAYS_IN_AUG;
+          if (t.y === YEAR && t.m === MONTH) return DAYS_IN_AUG - t.d + 1;
+          return 0;
+        }
+
+        function loggedDays() {
+          return Object.keys(amounts)
+            .map(function (key) {
+              return parseInt(key, 10);
+            })
+            .filter(function (day) {
+              return (
+                day >= 1 &&
+                day <= DAYS_IN_AUG &&
+                amounts[String(day)] != null &&
+                amounts[String(day)] !== "" &&
+                !isNaN(parseFloat(amounts[String(day)]))
+              );
+            })
+            .sort(function (a, b) {
+              return a - b;
+            });
+        }
+
+        function totalMade() {
+          var sum = 0;
+          loggedDays().forEach(function (day) {
+            var val = parseFloat(amounts[String(day)]);
+            if (!isNaN(val) && val >= 0) sum += val;
+          });
+          return sum;
+        }
+
+        function fillDaySelect() {
+          var current = daySelect.value;
+          daySelect.innerHTML = "";
+          for (var day = 1; day <= DAYS_IN_AUG; day++) {
+            if (amounts[String(day)] != null && amounts[String(day)] !== "") continue;
+            var opt = document.createElement("option");
+            var date = new Date(YEAR, MONTH, day);
+            opt.value = String(day);
+            opt.textContent =
+              "Aug " + day + " (" + weekdays[date.getDay()] + ")";
+            daySelect.appendChild(opt);
+          }
+
+          if (!daySelect.options.length) {
+            var done = document.createElement("option");
+            done.value = "";
+            done.textContent = "All days logged";
+            daySelect.appendChild(done);
+            daySelect.disabled = true;
+            amountInput.disabled = true;
+            return;
+          }
+
+          daySelect.disabled = false;
+          amountInput.disabled = false;
+          var preferred = String(defaultDay());
+          if (
+            current &&
+            daySelect.querySelector('option[value="' + current + '"]')
+          ) {
+            daySelect.value = current;
+          } else if (
+            daySelect.querySelector('option[value="' + preferred + '"]')
+          ) {
+            daySelect.value = preferred;
+          }
+        }
+
+        function renderStrip() {
+          stripEl.innerHTML = "";
+          for (var day = 1; day <= DAYS_IN_AUG; day++) {
+            var dot = document.createElement("div");
+            dot.className = "day-dot";
+            if (amounts[String(day)] != null && amounts[String(day)] !== "") {
+              dot.classList.add("filled");
+            }
+            if (isToday(day)) dot.classList.add("today");
+            if (isFuture(day)) dot.classList.add("future");
+            dot.title = "Aug " + day;
+            stripEl.appendChild(dot);
+          }
+        }
+
+        function updateProgress() {
+          var made = totalMade();
+          var left = Math.max(GOAL - made, 0);
+          var pct = Math.min((made / GOAL) * 100, 100);
+          var remainingDays = Math.max(daysLeftInAugust(), 1);
+          var pace = left / remainingDays;
+          var hit = made >= GOAL;
+          var days = loggedDays();
+
+          ringEl.style.setProperty("--pct", pct.toFixed(2));
+          barEl.style.width = pct.toFixed(2) + "%";
+          totalEl.textContent = money(made);
+          totalEl.classList.toggle("hit", hit);
+          pctEl.textContent = hit
+            ? "Goal crushed"
+            : Math.round(pct) + "% of $3,000";
+          leftEl.textContent = hit ? "$0" : money(left);
+          daysEl.textContent = String(daysLeftInAugust());
+          paceEl.textContent = hit ? "$0" : money(Math.ceil(pace));
+          paceCopy.innerHTML = hit
+            ? "You hit <strong>$3,000</strong>. Keep stacking."
+            : "Hit <strong>" +
+              money(Math.ceil(pace)) +
+              "/day</strong> to land $3K by Aug 31.";
+
+          var t = todayParts();
+          todayLabel.textContent =
+            weekdays[t.now.getDay()] +
+            ", " +
+            months[t.m] +
+            " " +
+            t.d +
+            ", " +
+            t.y;
+
+          emptyEl.hidden = days.length > 0;
+          renderStrip();
+
+          var running = 0;
+          days.forEach(function (day) {
+            var val = parseFloat(amounts[String(day)]) || 0;
+            running += val;
+            var row = listEl.querySelector('[data-day="' + day + '"]');
+            if (!row) return;
+            var cum = row.querySelector(".day-cum");
+            if (cum) cum.textContent = money(running);
+          });
+        }
+
+        function buildList() {
+          listEl.innerHTML = "";
+          loggedDays().forEach(function (day) {
+            var date = new Date(YEAR, MONTH, day);
+            var li = document.createElement("li");
+            li.className = "day-row";
+            li.dataset.day = String(day);
+            if (isToday(day)) li.classList.add("today");
+
+            var label = document.createElement("div");
+            label.className = "day-label";
+            label.innerHTML =
+              "Aug " +
+              day +
+              "<small>" +
+              weekdays[date.getDay()] +
+              "</small>";
+
+            var wrap = document.createElement("div");
+            wrap.className = "day-input-wrap";
+            var input = document.createElement("input");
+            input.className = "day-input";
+            input.type = "number";
+            input.min = "0";
+            input.step = "0.01";
+            input.inputMode = "decimal";
+            input.value = amounts[String(day)];
+            input.setAttribute("aria-label", "Amount made on August " + day);
+            input.addEventListener("change", onAmountInput);
+            wrap.appendChild(input);
+
+            var cum = document.createElement("div");
+            cum.className = "day-cum";
+            cum.textContent = "-";
+
+            var remove = document.createElement("button");
+            remove.type = "button";
+            remove.className = "remove-day";
+            remove.textContent = "Remove";
+            remove.setAttribute("aria-label", "Remove August " + day);
+            remove.addEventListener("click", function () {
+              delete amounts[String(day)];
+              saveAmounts(amounts);
+              refresh();
+            });
+
+            li.appendChild(label);
+            li.appendChild(wrap);
+            li.appendChild(cum);
+            li.appendChild(remove);
+            listEl.appendChild(li);
+          });
+        }
+
+        function onAmountInput(e) {
+          var input = e.target;
+          var row = input.closest(".day-row");
+          var day = row && row.dataset.day;
+          if (!day) return;
+          var raw = input.value.trim();
+          if (raw === "") {
+            delete amounts[day];
+            saveAmounts(amounts);
+            refresh();
+            return;
+          }
+          var val = parseFloat(raw);
+          if (isNaN(val) || val < 0) return;
+          amounts[day] = Math.round(val * 100) / 100;
+          saveAmounts(amounts);
+          updateProgress();
+        }
+
+        function refresh() {
+          fillDaySelect();
+          buildList();
+          updateProgress();
+        }
+
+        function tickCountdown() {
+          var now = new Date();
+          var diff = monthEnd.getTime() - now.getTime();
+          var root = document.getElementById("month-countdown");
+          var units = {
+            days: 0,
+            hours: 0,
+            mins: 0,
+            secs: 0,
+          };
+
+          if (diff > 0) {
+            units.days = Math.floor(diff / 86400000);
+            units.hours = Math.floor((diff % 86400000) / 3600000);
+            units.mins = Math.floor((diff % 3600000) / 60000);
+            units.secs = Math.floor((diff % 60000) / 1000);
+          }
+
+          Object.keys(units).forEach(function (key) {
+            var el = root.querySelector('[data-unit="' + key + '"]');
+            if (el) el.textContent = String(units[key]).padStart(2, "0");
+          });
+        }
+
+        addForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          formError.textContent = "";
+          var day = parseInt(daySelect.value, 10);
+          var val = parseFloat(amountInput.value);
+          if (!day || isNaN(day)) {
+            formError.textContent = "Pick a day first.";
+            return;
+          }
+          if (isNaN(val) || val < 0) {
+            formError.textContent = "Enter an amount for that day.";
+            return;
+          }
+          amounts[String(day)] = Math.round(val * 100) / 100;
+          saveAmounts(amounts);
+          amountInput.value = "";
+          refresh();
+          amountInput.focus();
+        });
+
+        document.getElementById("focus-add").addEventListener("click", function () {
+          addForm.scrollIntoView({ behavior: "smooth", block: "center" });
+          amountInput.focus();
+        });
+
+        document.getElementById("clear-log").addEventListener("click", function () {
+          if (!confirm("Clear all August amounts on this device?")) return;
+          amounts = {};
+          saveAmounts(amounts);
+          formError.textContent = "";
+          amountInput.value = "";
+          refresh();
+        });
+
+        refresh();
+        tickCountdown();
+        setInterval(tickCountdown, 1000);
+      })();
+    </script>
+  </body>
+</html>
