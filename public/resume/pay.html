@@ -33,13 +33,13 @@
           <p class="eyebrow">Almost done</p>
           <h2 id="pay-title">Complete your payment</h2>
           <p class="section-lede" id="pay-lede">
-            Your order details were sent. Pay securely with Stripe below.
+            Your order details were sent. Redirecting to StripeÖ
           </p>
         </div>
 
         <div class="stripe-pay" id="stripe-pay">
           <p class="order-summary-label">Total due now</p>
-          <p class="order-summary-total"><strong id="pay-total">ù</strong></p>
+          <p class="order-summary-total"><strong id="pay-total">ó</strong></p>
           <a class="btn btn-primary btn-wide" id="pay-link" href="#">Pay with Stripe</a>
           <p id="pay-fallback" class="fineprint" hidden></p>
         </div>
@@ -69,7 +69,10 @@
 
         if (!tier || !prices[tier]) {
           if (title) title.textContent = "Choose a package first";
-          if (lede) lede.textContent = "Head back to the order form to pick Starter, Career, or Pro.";
+          if (lede) {
+            lede.textContent =
+              "Head back to the order form to pick Starter, Career, or Pro.";
+          }
           if (payLink) payLink.hidden = true;
           if (fallback) {
             fallback.hidden = false;
@@ -84,7 +87,7 @@
         if (title) title.textContent = "Pay for " + labels[tier];
         if (lede) {
           lede.textContent =
-            "Your " + labels[tier] + " order details were sent. Complete payment below.";
+            "Order saved. Opening Stripe checkout for " + labels[tier] + "Ö";
         }
         if (totalEl) totalEl.textContent = money(total);
 
@@ -92,6 +95,10 @@
           payLink.href = paymentUrl;
           payLink.textContent = "Pay " + money(total) + " with Stripe";
           payLink.hidden = false;
+          // Formspree lands here via _next ó continue straight to Stripe
+          window.setTimeout(function () {
+            window.location.href = paymentUrl;
+          }, 500);
           return;
         }
 

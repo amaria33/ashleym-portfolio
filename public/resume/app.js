@@ -82,7 +82,14 @@
   }
 
   function payUrlFor(tier) {
-    return "https://www.builtbyashley.com/resume/pay.html?tier=" + encodeURIComponent(tier);
+    return (
+      "https://www.builtbyashley.com/resume/pay.html?tier=" +
+      encodeURIComponent(tier)
+    );
+  }
+
+  function stripeUrlFor(tier) {
+    return ((config.stripeLinks || {})[tier] || "").trim();
   }
 
   function updateOrderSummary() {
@@ -127,28 +134,21 @@
     el.classList.toggle("error", Boolean(isError));
   }
 
-  function stripeUrlFor(tier) {
-    return ((config.stripeLinks || {})[tier] || "").trim();
-  }
-
   updateOrderSummary();
 
   if (form) {
     form.addEventListener("submit", function (event) {
-      // Never wait on Formspree for checkout — that was stranding users on
-      // "Submitting order…". Send details in the background, then open Stripe.
-      event.preventDefault();
-
       const tier = (tierSelect && tierSelect.value) || "";
       const total = prices[tier] || 0;
-      const paymentUrl = stripeUrlFor(tier) || payUrlFor(tier);
 
       if (!tier) {
+        event.preventDefault();
         showStatus(statusEl, "Please select a package.", true);
         return;
       }
 
-      if (!stripeUrlFor(tier) && !payUrlFor(tier)) {
+      if (!stripeUrlFor(tier)) {
+        event.preventDefault();
         showStatus(
           statusEl,
           "That package isn’t available for checkout yet. Email " +
@@ -159,34 +159,16 @@
         return;
       }
 
+      // Real browser POST to Formspree (so it shows up in Forms).
+      // Do NOT preventDefault and do NOT disable the button — that was
+      // canceling the submit / skipping Formspree.
       if (nextInput) nextInput.value = payUrlFor(tier);
       if (subjectInput) {
         subjectInput.value =
           "Resume Optimizer — New order (" + tier + " · " + money(total) + ")";
       }
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.textContent = "Opening checkout…";
-      }
-      showStatus(statusEl, "Opening Stripe checkout…");
-
-      // Best-effort order email — do not block payment if Formspree fails
-      try {
-        const endpoint = form.getAttribute("action");
-        if (endpoint) {
-          fetch(endpoint, {
-            method: "POST",
-            body: new FormData(form),
-            headers: { Accept: "application/json" },
-            mode: "cors",
-            keepalive: true,
-          }).catch(function () {});
-        }
-      } catch (err) {
-        /* ignore */
-      }
-
-      window.location.href = paymentUrl;
+      if (submitBtn) submitBtn.textContent = "Sending order…";
+      showStatus(statusEl, "Saving your order, then opening payment…");
     });
   }
 })();
