@@ -6,8 +6,8 @@
   const submitBtn = document.getElementById("submit-btn");
   const summaryEl = document.getElementById("order-summary");
   const totalEl = document.getElementById("order-total");
-  const stripePay = document.getElementById("stripe-pay");
-  const buyMount = document.getElementById("stripe-buy-button-mount");
+  const nextInput = document.getElementById("order-next");
+  const subjectInput = document.getElementById("order-subject");
 
   const prices = Object.assign(
     { starter: 39.5, career: 74.5, pro: 124.5 },
@@ -81,29 +81,8 @@
     return n % 1 === 0 ? "$" + n.toFixed(0) : "$" + n.toFixed(2);
   }
 
-  function getPaymentLink(tier) {
-    return (config.stripeLinks || {})[tier] || "";
-  }
-
-  function getBuyButtonId(tier) {
-    return (config.stripeBuyButtons || {})[tier] || "";
-  }
-
-  function showBuyButton(tier) {
-    const buttonId = getBuyButtonId(tier);
-    const pk = config.stripePublishableKey || "";
-    if (!buttonId || !pk || !buyMount || !stripePay) return false;
-
-    buyMount.innerHTML = "";
-    const el = document.createElement("stripe-buy-button");
-    el.setAttribute("buy-button-id", buttonId);
-    el.setAttribute("publishable-key", pk);
-    buyMount.appendChild(el);
-
-    stripePay.hidden = false;
-    if (submitBtn) submitBtn.hidden = true;
-    stripePay.scrollIntoView({ behavior: "smooth", block: "center" });
-    return true;
+  function payUrlFor(tier) {
+    return "https://www.builtbyashley.com/resume/pay.html?tier=" + encodeURIComponent(tier);
   }
 
   function updateOrderSummary() {
@@ -112,11 +91,7 @@
 
     if (!tier || prices[tier] == null) {
       summaryEl.hidden = true;
-      if (submitBtn) {
-        submitBtn.hidden = false;
-        submitBtn.textContent = "Submit order & pay with Stripe";
-      }
-      if (stripePay) stripePay.hidden = true;
+      if (submitBtn) submitBtn.textContent = "Submit order & pay with Stripe";
       return;
     }
 
@@ -126,11 +101,12 @@
     summaryEl.querySelector("[data-lines]").innerHTML =
       "<li>" + labels[tier] + " — " + money(total) + "</li>";
     totalEl.textContent = money(total);
-    if (submitBtn) {
-      submitBtn.hidden = false;
-      submitBtn.textContent = "Submit order & pay " + money(total);
+    if (submitBtn) submitBtn.textContent = "Submit order & pay " + money(total);
+    if (nextInput) nextInput.value = payUrlFor(tier);
+    if (subjectInput) {
+      subjectInput.value =
+        "Resume Optimizer — New order (" + tier + " · " + money(total) + ")";
     }
-    if (stripePay) stripePay.hidden = true;
   }
 
   function showStatus(el, message, isError) {
@@ -140,69 +116,23 @@
     el.classList.toggle("error", Boolean(isError));
   }
 
-  function formConfigured() {
-    return (
-      config.formspreeEndpoint &&
-      !config.formspreeEndpoint.includes("YOUR_FORM_ID")
-    );
-  }
-
-  function goToPayment(tier, total) {
-    if (showBuyButton(tier)) {
-      showStatus(
-        statusEl,
-        "Order received — complete payment with the Stripe button below."
-      );
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Submit order & pay " + money(total);
-      }
-      return;
-    }
-
-    const paymentUrl = getPaymentLink(tier);
-    if (!paymentUrl) {
-      showStatus(
-        statusEl,
-        "That package isn’t available for checkout yet. Email " +
-          (config.contactEmail || "us") +
-          ".",
-        true
-      );
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        updateOrderSummary();
-      }
-      return;
-    }
-
-    showStatus(
-      statusEl,
-      "Order received — redirecting to Stripe checkout for " + money(total) + "…"
-    );
-    if (submitBtn) submitBtn.textContent = "Redirecting to pay…";
-    window.setTimeout(function () {
-      window.location.href = paymentUrl;
-    }, 700);
-  }
-
   updateOrderSummary();
 
   if (form) {
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-
+    form.addEventListener("submit", function (event) {
       const tier = (tierSelect && tierSelect.value) || "";
       const total = prices[tier] || 0;
-      const hasBuyButton = Boolean(getBuyButtonId(tier));
-      const hasPaymentLink = Boolean(getPaymentLink(tier));
+      const hasBuyButton = Boolean((config.stripeBuyButtons || {})[tier]);
+      const hasPaymentLink = Boolean((config.stripeLinks || {})[tier]);
 
       if (!tier) {
+        event.preventDefault();
         showStatus(statusEl, "Please select a package.", true);
         return;
       }
 
       if (!hasBuyButton && !hasPaymentLink) {
+        event.preventDefault();
         showStatus(
           statusEl,
           "That package isn’t available for checkout yet. Email " +
@@ -213,33 +143,17 @@
         return;
       }
 
-      const formData = new FormData(form);
-      formData.set("jd_pack", "no");
-      formData.set("rush", "no");
-      formData.set("order_total", money(total));
-      formData.set(
-        "_subject",
-        "Resume Optimizer — New order (" + tier + " · " + money(total) + ")"
-      );
-
-      submitBtn.disabled = true;
-      submitBtn.textContent = "Sending order…";
-      showStatus(statusEl, "Submitting your order details…");
-
-      try {
-        if (formConfigured()) {
-          const response = await fetch(config.formspreeEndpoint, {
-            method: "POST",
-            body: formData,
-            headers: { Accept: "application/json" },
-          });
-          if (!response.ok) throw new Error("Form submit failed");
-        }
-        goToPayment(tier, total);
-      } catch (err) {
-        showStatus(statusEl, "Couldn’t send the order form. Continuing to payment…", true);
-        goToPayment(tier, total);
+      // Native Formspree POST (works with reCAPTCHA). Then redirects to pay page.
+      if (nextInput) nextInput.value = payUrlFor(tier);
+      if (subjectInput) {
+        subjectInput.value =
+          "Resume Optimizer — New order (" + tier + " · " + money(total) + ")";
       }
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Sending order…";
+      }
+      showStatus(statusEl, "Submitting your order details…");
     });
   }
 })();

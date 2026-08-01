@@ -316,7 +316,22 @@ https://www.builtbyashley.com/resume
             </p>
           </div>
 
-          <form id="order-form" class="order-form">
+          <form
+            id="order-form"
+            class="order-form"
+            action="https://formspree.io/f/xwvgjqlb"
+            method="POST"
+          >
+            <input type="hidden" name="_subject" id="order-subject" value="Resume Optimizer — New order" />
+            <input
+              type="hidden"
+              name="_next"
+              id="order-next"
+              value="https://www.builtbyashley.com/resume/pay.html"
+            />
+            <input type="hidden" name="jd_pack" value="no" />
+            <input type="hidden" name="rush" value="no" />
+            <input type="hidden" name="form_type" value="order" />
             <div class="form-grid">
               <label>
                 Package
@@ -417,12 +432,6 @@ https://www.builtbyashley.com/resume
             <button type="submit" class="btn btn-primary btn-wide" id="submit-btn">
               Submit order &amp; pay with Stripe
             </button>
-
-            <div id="stripe-pay" class="stripe-pay" hidden>
-              <p class="order-summary-label">Complete payment</p>
-              <p class="stripe-pay-note">Your order details were saved. Tap below to pay securely with Stripe.</p>
-              <div id="stripe-buy-button-mount"></div>
-            </div>
 
             <p class="fineprint disclaimer">
               <strong>Disclaimer:</strong> We optimize your resume and related materials for clarity and ATS alignment.

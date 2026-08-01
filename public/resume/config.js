@@ -3,7 +3,7 @@
 // ============================================================
 
 window.RESUME_CONFIG = {
-  // Formspree: orders only
+  // Orders use native Formspree POST (AJAX fails when reCAPTCHA is enabled)
   formspreeEndpoint: "https://formspree.io/f/xwvgjqlb",
 
   // Package prices (for the order total display)
