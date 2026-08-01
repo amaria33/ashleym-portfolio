@@ -7,12 +7,20 @@
   const jdPack = document.getElementById("jd-pack");
   const jdLinksWrap = document.getElementById("jd-links-wrap");
   const rush = document.getElementById("rush");
+  const summaryEl = document.getElementById("order-summary");
+  const totalEl = document.getElementById("order-total");
+
+  const prices = Object.assign(
+    { starter: 39.5, career: 74.5, pro: 124.5, jd: 29, rush: 29 },
+    config.prices || {}
+  );
 
   document.querySelectorAll(".select-tier").forEach((btn) => {
     btn.addEventListener("click", () => {
       const tier = btn.getAttribute("data-tier");
       if (tierSelect && tier) {
         tierSelect.value = tier;
+        updateOrderSummary();
         document.getElementById("order").scrollIntoView({ behavior: "smooth" });
       }
     });
@@ -71,7 +79,71 @@
   if (jdPack && jdLinksWrap) {
     jdPack.addEventListener("change", () => {
       jdLinksWrap.hidden = !jdPack.checked;
+      updateOrderSummary();
     });
+  }
+
+  if (tierSelect) tierSelect.addEventListener("change", updateOrderSummary);
+  if (rush) rush.addEventListener("change", updateOrderSummary);
+
+  function money(n) {
+    return n % 1 === 0 ? "$" + n.toFixed(0) : "$" + n.toFixed(2);
+  }
+
+  function getSelection() {
+    const tier = (tierSelect && tierSelect.value) || "";
+    const wantsJd = Boolean(jdPack && jdPack.checked);
+    const wantsRush = Boolean(rush && rush.checked);
+    return { tier, wantsJd, wantsRush };
+  }
+
+  function getCheckoutKey(sel) {
+    if (!sel.tier) return "";
+    let key = sel.tier;
+    if (sel.wantsJd) key += "+jd";
+    if (sel.wantsRush) key += "+rush";
+    return key;
+  }
+
+  function getOrderTotal(sel) {
+    if (!sel.tier || prices[sel.tier] == null) return 0;
+    let total = prices[sel.tier];
+    if (sel.wantsJd) total += prices.jd;
+    if (sel.wantsRush) total += prices.rush;
+    return total;
+  }
+
+  function getPaymentLink(key) {
+    return (config.stripeLinks || {})[key] || "";
+  }
+
+  function updateOrderSummary() {
+    if (!summaryEl || !totalEl) return;
+    const sel = getSelection();
+
+    if (!sel.tier) {
+      summaryEl.hidden = true;
+      if (submitBtn) submitBtn.textContent = "Submit order & pay with Stripe";
+      return;
+    }
+
+    const lines = [];
+    const labels = { starter: "Starter", career: "Career", pro: "Pro" };
+    lines.push(labels[sel.tier] + " — " + money(prices[sel.tier]));
+    if (sel.wantsJd) lines.push("JD Tailoring Pack — " + money(prices.jd));
+    if (sel.wantsRush) lines.push("Rush delivery — " + money(prices.rush));
+
+    const total = getOrderTotal(sel);
+    summaryEl.hidden = false;
+    summaryEl.querySelector("[data-lines]").innerHTML = lines
+      .map(function (line) {
+        return "<li>" + line + "</li>";
+      })
+      .join("");
+    totalEl.textContent = money(total);
+    if (submitBtn) {
+      submitBtn.textContent = "Pay " + money(total) + " with Stripe";
+    }
   }
 
   function showStatus(el, message, isError) {
@@ -88,63 +160,36 @@
     );
   }
 
-  function getPaymentLink(tier) {
-    return (config.stripeLinks || {})[tier] || "";
-  }
-
-  function openAddonLinks(urls) {
-    urls.forEach(function (url) {
-      window.open(url, "_blank", "noopener");
-    });
-  }
+  updateOrderSummary();
 
   if (form) {
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
 
-      const tier = tierSelect.value;
-      const paymentUrl = getPaymentLink(tier);
-      const wantsJdPack = Boolean(jdPack && jdPack.checked);
-      const wantsRush = Boolean(rush && rush.checked);
-      const jdPackUrl = getPaymentLink("jd-pack");
-      const rushUrl = getPaymentLink("rush");
+      const sel = getSelection();
+      const checkoutKey = getCheckoutKey(sel);
+      const paymentUrl = getPaymentLink(checkoutKey);
+      const total = getOrderTotal(sel);
+      const hasAddons = sel.wantsJd || sel.wantsRush;
 
-      if (!tier) {
+      if (!sel.tier) {
         showStatus(statusEl, "Please select a package.", true);
         return;
       }
 
-      if (!paymentUrl) {
-        showStatus(
-          statusEl,
-          "That package isn’t available for checkout yet. Email " +
-            (config.contactEmail || "us") +
-            ".",
-          true
-        );
-        return;
-      }
-
       const formData = new FormData(form);
-      formData.set("jd_pack", wantsJdPack ? "yes" : "no");
-      formData.set("rush", wantsRush ? "yes" : "no");
-      formData.set("_subject", "Resume Optimizer — New order (" + tier + ")");
+      formData.set("jd_pack", sel.wantsJd ? "yes" : "no");
+      formData.set("rush", sel.wantsRush ? "yes" : "no");
+      formData.set("checkout_key", checkoutKey);
+      formData.set("order_total", money(total));
+      formData.set(
+        "_subject",
+        "Resume Optimizer — New order (" + checkoutKey + " · " + money(total) + ")"
+      );
 
       submitBtn.disabled = true;
       submitBtn.textContent = "Sending order…";
       showStatus(statusEl, "Submitting your order details…");
-
-      const addonUrls = [];
-      const pendingAddons = [];
-
-      if (wantsJdPack) {
-        if (jdPackUrl) addonUrls.push(jdPackUrl);
-        else pendingAddons.push("JD Tailoring Pack ($29)");
-      }
-      if (wantsRush) {
-        if (rushUrl) addonUrls.push(rushUrl);
-        else pendingAddons.push("Rush delivery ($29)");
-      }
 
       try {
         if (formConfigured()) {
@@ -156,40 +201,60 @@
           if (!response.ok) throw new Error("Form submit failed");
         }
 
-        if (addonUrls.length) {
-          openAddonLinks(addonUrls);
-        }
-
-        if (pendingAddons.length) {
+        // One Stripe checkout only — never open multiple payment windows.
+        if (paymentUrl) {
           showStatus(
             statusEl,
-            "Order received — redirecting to Stripe. I’ll email payment links for: " +
-              pendingAddons.join(", ") +
-              "."
+            "Order received — redirecting to one Stripe checkout for " + money(total) + "…"
           );
-        } else if (addonUrls.length) {
-          showStatus(
-            statusEl,
-            "Order received — opening add-on checkout, then your package…"
-          );
-        } else {
-          showStatus(statusEl, "Order received — redirecting to secure Stripe checkout…");
+          submitBtn.textContent = "Redirecting to pay…";
+          window.setTimeout(function () {
+            window.location.href = paymentUrl;
+          }, 700);
+          return;
         }
 
-        submitBtn.textContent = "Redirecting to pay…";
-        window.setTimeout(function () {
-          window.location.href = paymentUrl;
-        }, 700);
+        // Combo Payment Link not created yet — don't charge package alone.
+        if (hasAddons) {
+          showStatus(
+            statusEl,
+            "Order received for " +
+              money(total) +
+              ". I’ll email you one Stripe checkout link for the full total."
+          );
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Pay " + money(total) + " with Stripe";
+          return;
+        }
+
+        showStatus(
+          statusEl,
+          "That package isn’t available for checkout yet. Email " +
+            (config.contactEmail || "us") +
+            ".",
+          true
+        );
+        submitBtn.disabled = false;
+        updateOrderSummary();
       } catch (err) {
-        showStatus(statusEl, "Couldn’t send the order form. Continuing to payment…", true);
-        submitBtn.textContent = "Redirecting to pay…";
-        if (addonUrls.length) openAddonLinks(addonUrls);
-        window.setTimeout(function () {
-          window.location.href = paymentUrl;
-        }, 700);
+        if (paymentUrl) {
+          showStatus(statusEl, "Couldn’t send the order form. Continuing to payment…", true);
+          submitBtn.textContent = "Redirecting to pay…";
+          window.setTimeout(function () {
+            window.location.href = paymentUrl;
+          }, 700);
+          return;
+        }
+        showStatus(
+          statusEl,
+          "Couldn’t send the order. Please email " +
+            (config.contactEmail || "us") +
+            " or try again.",
+          true
+        );
+        submitBtn.disabled = false;
+        updateOrderSummary();
       }
     });
   }
-
-  // Freebie form posts to FormSubmit (native submit) so autoresponse emails work.
 })();

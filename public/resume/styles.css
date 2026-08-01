@@ -676,6 +676,43 @@ h2 {
   font-weight: 500;
 }
 
+.order-summary {
+  padding: 0.95rem 1rem;
+  border-top: 2px solid var(--ink);
+  background: rgba(15, 23, 20, 0.04);
+}
+
+.order-summary-label {
+  margin: 0 0 0.45rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mint-deep);
+}
+
+.order-summary ul {
+  margin: 0 0 0.65rem;
+  padding-left: 1.1rem;
+  color: var(--ink-soft);
+}
+
+.order-summary li + li {
+  margin-top: 0.25rem;
+}
+
+.order-summary-total {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+
+.order-summary-total strong {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+}
+
 .upsell-check input {
   width: 1.1rem;
   height: 1.1rem;
