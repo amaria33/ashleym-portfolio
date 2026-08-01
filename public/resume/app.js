@@ -138,17 +138,20 @@
 
   if (form) {
     form.addEventListener("submit", function (event) {
+      // Open Stripe immediately (captcha/Formspree was stranding checkout).
+      // Order details are emailed via FormSubmit in the background.
+      event.preventDefault();
+
       const tier = (tierSelect && tierSelect.value) || "";
       const total = prices[tier] || 0;
+      const paymentUrl = stripeUrlFor(tier) || payUrlFor(tier);
 
       if (!tier) {
-        event.preventDefault();
         showStatus(statusEl, "Please select a package.", true);
         return;
       }
 
       if (!stripeUrlFor(tier)) {
-        event.preventDefault();
         showStatus(
           statusEl,
           "That package isn’t available for checkout yet. Email " +
@@ -159,16 +162,35 @@
         return;
       }
 
-      // Real browser POST to Formspree (so it shows up in Forms).
-      // Do NOT preventDefault and do NOT disable the button — that was
-      // canceling the submit / skipping Formspree.
       if (nextInput) nextInput.value = payUrlFor(tier);
       if (subjectInput) {
         subjectInput.value =
           "Resume Optimizer — New order (" + tier + " · " + money(total) + ")";
       }
-      if (submitBtn) submitBtn.textContent = "Sending order…";
-      showStatus(statusEl, "Saving your order, then opening payment…");
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Opening checkout…";
+      }
+      showStatus(statusEl, "Opening Stripe checkout…");
+
+      // Email order details to hello@ (FormSubmit — no Formspree captcha)
+      try {
+        const data = new FormData(form);
+        data.set("_subject", subjectInput ? subjectInput.value : "Resume Optimizer — New order");
+        data.set("_template", "table");
+        data.delete("_next");
+        fetch("https://formsubmit.co/ajax/hello@builtbyashley.com", {
+          method: "POST",
+          body: data,
+          headers: { Accept: "application/json" },
+          mode: "cors",
+          keepalive: true,
+        }).catch(function () {});
+      } catch (err) {
+        /* ignore */
+      }
+
+      window.location.href = paymentUrl;
     });
   }
 })();

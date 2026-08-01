@@ -33,7 +33,7 @@
           <p class="eyebrow">Almost done</p>
           <h2 id="pay-title">Complete your payment</h2>
           <p class="section-lede" id="pay-lede">
-            Your order details were sent. Redirecting to Stripe…
+            Your order details were sent. Pay securely with Stripe below.
           </p>
         </div>
 
@@ -87,7 +87,7 @@
         if (title) title.textContent = "Pay for " + labels[tier];
         if (lede) {
           lede.textContent =
-            "Order saved. Opening Stripe checkout for " + labels[tier] + "…";
+            "Your " + labels[tier] + " order details were sent. Complete payment below.";
         }
         if (totalEl) totalEl.textContent = money(total);
 
@@ -95,10 +95,6 @@
           payLink.href = paymentUrl;
           payLink.textContent = "Pay " + money(total) + " with Stripe";
           payLink.hidden = false;
-          // Formspree lands here via _next — continue straight to Stripe
-          window.setTimeout(function () {
-            window.location.href = paymentUrl;
-          }, 500);
           return;
         }
 
