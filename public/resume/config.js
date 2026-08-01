@@ -13,9 +13,20 @@ window.RESUME_CONFIG = {
     pro: 124.5,
   },
 
-  // Stripe Payment Links — packages only (JD / rush add-ons coming soon)
+  // Stripe publishable key (safe for frontend) + Buy Buttons
+  stripePublishableKey:
+    "pk_live_51SSRk8FTmTwKXbYCPUeoG5tge4Z8uM7NPHcSZfZhEl3ncZvkgyYYRUR4JLimVCRpSDP70f8QC2p2RMun7EuJENVN00QtI90Wkh",
+
+  // Prefer Buy Button when set; otherwise Payment Link redirect
+  stripeBuyButtons: {
+    starter: "buy_btn_1TzSdMFTmTwKXbYCA26zTkoQ", // $39.50
+    career: "",
+    pro: "",
+  },
+
+  // Stripe Payment Links — fallback / packages without a buy button yet
   stripeLinks: {
-    starter: "https://buy.stripe.com/5kQ00jdkZ4nwfNF0EtaMU01", // $39.50
+    starter: "", // using Buy Button above
     career: "https://buy.stripe.com/bJecN580FcU230TevjaMU02", // $74.50
     pro: "https://buy.stripe.com/4gMeVdep38DM30TgDraMU03", // $124.50
     "template-pack": "", // coming soon

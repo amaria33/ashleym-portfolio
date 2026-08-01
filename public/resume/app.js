@@ -6,6 +6,8 @@
   const submitBtn = document.getElementById("submit-btn");
   const summaryEl = document.getElementById("order-summary");
   const totalEl = document.getElementById("order-total");
+  const stripePay = document.getElementById("stripe-pay");
+  const buyMount = document.getElementById("stripe-buy-button-mount");
 
   const prices = Object.assign(
     { starter: 39.5, career: 74.5, pro: 124.5 },
@@ -83,13 +85,38 @@
     return (config.stripeLinks || {})[tier] || "";
   }
 
+  function getBuyButtonId(tier) {
+    return (config.stripeBuyButtons || {})[tier] || "";
+  }
+
+  function showBuyButton(tier) {
+    const buttonId = getBuyButtonId(tier);
+    const pk = config.stripePublishableKey || "";
+    if (!buttonId || !pk || !buyMount || !stripePay) return false;
+
+    buyMount.innerHTML = "";
+    const el = document.createElement("stripe-buy-button");
+    el.setAttribute("buy-button-id", buttonId);
+    el.setAttribute("publishable-key", pk);
+    buyMount.appendChild(el);
+
+    stripePay.hidden = false;
+    if (submitBtn) submitBtn.hidden = true;
+    stripePay.scrollIntoView({ behavior: "smooth", block: "center" });
+    return true;
+  }
+
   function updateOrderSummary() {
     if (!summaryEl || !totalEl) return;
     const tier = (tierSelect && tierSelect.value) || "";
 
     if (!tier || prices[tier] == null) {
       summaryEl.hidden = true;
-      if (submitBtn) submitBtn.textContent = "Submit order & pay with Stripe";
+      if (submitBtn) {
+        submitBtn.hidden = false;
+        submitBtn.textContent = "Submit order & pay with Stripe";
+      }
+      if (stripePay) stripePay.hidden = true;
       return;
     }
 
@@ -99,7 +126,11 @@
     summaryEl.querySelector("[data-lines]").innerHTML =
       "<li>" + labels[tier] + " — " + money(total) + "</li>";
     totalEl.textContent = money(total);
-    if (submitBtn) submitBtn.textContent = "Pay " + money(total) + " with Stripe";
+    if (submitBtn) {
+      submitBtn.hidden = false;
+      submitBtn.textContent = "Submit order & pay " + money(total);
+    }
+    if (stripePay) stripePay.hidden = true;
   }
 
   function showStatus(el, message, isError) {
@@ -116,6 +147,45 @@
     );
   }
 
+  function goToPayment(tier, total) {
+    if (showBuyButton(tier)) {
+      showStatus(
+        statusEl,
+        "Order received — complete payment with the Stripe button below."
+      );
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit order & pay " + money(total);
+      }
+      return;
+    }
+
+    const paymentUrl = getPaymentLink(tier);
+    if (!paymentUrl) {
+      showStatus(
+        statusEl,
+        "That package isn’t available for checkout yet. Email " +
+          (config.contactEmail || "us") +
+          ".",
+        true
+      );
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        updateOrderSummary();
+      }
+      return;
+    }
+
+    showStatus(
+      statusEl,
+      "Order received — redirecting to Stripe checkout for " + money(total) + "…"
+    );
+    if (submitBtn) submitBtn.textContent = "Redirecting to pay…";
+    window.setTimeout(function () {
+      window.location.href = paymentUrl;
+    }, 700);
+  }
+
   updateOrderSummary();
 
   if (form) {
@@ -123,15 +193,16 @@
       event.preventDefault();
 
       const tier = (tierSelect && tierSelect.value) || "";
-      const paymentUrl = getPaymentLink(tier);
       const total = prices[tier] || 0;
+      const hasBuyButton = Boolean(getBuyButtonId(tier));
+      const hasPaymentLink = Boolean(getPaymentLink(tier));
 
       if (!tier) {
         showStatus(statusEl, "Please select a package.", true);
         return;
       }
 
-      if (!paymentUrl) {
+      if (!hasBuyButton && !hasPaymentLink) {
         showStatus(
           statusEl,
           "That package isn’t available for checkout yet. Email " +
@@ -164,21 +235,10 @@
           });
           if (!response.ok) throw new Error("Form submit failed");
         }
-
-        showStatus(
-          statusEl,
-          "Order received — redirecting to Stripe checkout for " + money(total) + "…"
-        );
-        submitBtn.textContent = "Redirecting to pay…";
-        window.setTimeout(function () {
-          window.location.href = paymentUrl;
-        }, 700);
+        goToPayment(tier, total);
       } catch (err) {
         showStatus(statusEl, "Couldn’t send the order form. Continuing to payment…", true);
-        submitBtn.textContent = "Redirecting to pay…";
-        window.setTimeout(function () {
-          window.location.href = paymentUrl;
-        }, 700);
+        goToPayment(tier, total);
       }
     });
   }

@@ -417,12 +417,19 @@ https://www.builtbyashley.com/resume
             <button type="submit" class="btn btn-primary btn-wide" id="submit-btn">
               Submit order &amp; pay with Stripe
             </button>
+
+            <div id="stripe-pay" class="stripe-pay" hidden>
+              <p class="order-summary-label">Complete payment</p>
+              <p class="stripe-pay-note">Your order details were saved. Tap below to pay securely with Stripe.</p>
+              <div id="stripe-buy-button-mount"></div>
+            </div>
+
             <p class="fineprint disclaimer">
               <strong>Disclaimer:</strong> We optimize your resume and related materials for clarity and ATS alignment.
               We cannot guarantee interviews, job offers, or hiring outcomes — results vary by role, market, and employer.
             </p>
             <p class="fineprint">
-              You’ll be redirected to Stripe to complete payment. Standard turnaround is 3–5 days.
+              You’ll complete payment securely with Stripe. Standard turnaround is 3–5 days.
               Questions or data requests:
               <a href="mailto:hello@builtbyashley.com">hello@builtbyashley.com</a>
               ·
@@ -525,6 +532,7 @@ https://www.builtbyashley.com/resume
       </div>
     </footer>
 
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
     <script src="/resume/config.js"></script>
     <script src="/resume/app.js"></script>
   </body>
