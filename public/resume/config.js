@@ -17,18 +17,18 @@ window.RESUME_CONFIG = {
   stripePublishableKey:
     "pk_live_51SSRk8FTmTwKXbYCPUeoG5tge4Z8uM7NPHcSZfZhEl3ncZvkgyYYRUR4JLimVCRpSDP70f8QC2p2RMun7EuJENVN00QtI90Wkh",
 
-  // Prefer Buy Button when set; otherwise Payment Link redirect
+  // Buy Buttons (optional display) — Payment Links are the reliable checkout
   stripeBuyButtons: {
     starter: "buy_btn_1TzSdMFTmTwKXbYCA26zTkoQ", // $39.50
     career: "buy_btn_1TzSfKFTmTwKXbYClJEbKPfp", // $74.50
     pro: "buy_btn_1TzSg0FTmTwKXbYCJDVnSicf", // $124.50
   },
 
-  // Stripe Payment Links — unused while Buy Buttons are set
+  // Stripe Payment Links — used for checkout redirect on the pay page
   stripeLinks: {
-    starter: "",
-    career: "",
-    pro: "",
+    starter: "https://buy.stripe.com/5kQ00jdkZ4nwfNF0EtaMU01", // $39.50
+    career: "https://buy.stripe.com/bJecN580FcU230TevjaMU02", // $74.50
+    pro: "https://buy.stripe.com/4gMeVdep38DM30TgDraMU03", // $124.50
     "template-pack": "", // coming soon
     bundle: "", // coming soon
   },

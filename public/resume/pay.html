@@ -28,11 +28,11 @@
     </header>
 
     <main class="section">
-      <div class="shell" style="max-width: 560px; margin-inline: auto">
-        <div class="section-head" style="text-align: center">
+      <div class="shell pay-shell">
+        <div class="section-head pay-head">
           <p class="eyebrow">Almost done</p>
           <h2 id="pay-title">Complete your payment</h2>
-          <p class="section-lede" id="pay-lede" style="margin-inline: auto">
+          <p class="section-lede" id="pay-lede">
             Your order details were sent. Pay securely with Stripe below.
           </p>
         </div>
@@ -40,13 +40,12 @@
         <div class="stripe-pay" id="stripe-pay">
           <p class="order-summary-label">Total due now</p>
           <p class="order-summary-total"><strong id="pay-total">—</strong></p>
-          <div id="stripe-buy-button-mount"></div>
+          <a class="btn btn-primary btn-wide" id="pay-link" href="#">Pay with Stripe</a>
           <p id="pay-fallback" class="fineprint" hidden></p>
         </div>
       </div>
     </main>
 
-    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
     <script src="/resume/config.js"></script>
     <script>
       (function () {
@@ -61,7 +60,7 @@
         var title = document.getElementById("pay-title");
         var lede = document.getElementById("pay-lede");
         var totalEl = document.getElementById("pay-total");
-        var mount = document.getElementById("stripe-buy-button-mount");
+        var payLink = document.getElementById("pay-link");
         var fallback = document.getElementById("pay-fallback");
 
         function money(n) {
@@ -71,6 +70,7 @@
         if (!tier || !prices[tier]) {
           if (title) title.textContent = "Choose a package first";
           if (lede) lede.textContent = "Head back to the order form to pick Starter, Career, or Pro.";
+          if (payLink) payLink.hidden = true;
           if (fallback) {
             fallback.hidden = false;
             fallback.innerHTML = '<a href="/resume/#order">Return to order form</a>';
@@ -78,30 +78,24 @@
           return;
         }
 
+        var total = prices[tier];
+        var paymentUrl = (config.stripeLinks || {})[tier] || "";
+
         if (title) title.textContent = "Pay for " + labels[tier];
         if (lede) {
           lede.textContent =
             "Your " + labels[tier] + " order details were sent. Complete payment below.";
         }
-        if (totalEl) totalEl.textContent = money(prices[tier]);
+        if (totalEl) totalEl.textContent = money(total);
 
-        var buttonId = (config.stripeBuyButtons || {})[tier] || "";
-        var pk = config.stripePublishableKey || "";
-        var paymentUrl = (config.stripeLinks || {})[tier] || "";
-
-        if (buttonId && pk && mount) {
-          var el = document.createElement("stripe-buy-button");
-          el.setAttribute("buy-button-id", buttonId);
-          el.setAttribute("publishable-key", pk);
-          mount.appendChild(el);
+        if (paymentUrl && payLink) {
+          payLink.href = paymentUrl;
+          payLink.textContent = "Pay " + money(total) + " with Stripe";
+          payLink.hidden = false;
           return;
         }
 
-        if (paymentUrl) {
-          window.location.href = paymentUrl;
-          return;
-        }
-
+        if (payLink) payLink.hidden = true;
         if (fallback) {
           fallback.hidden = false;
           fallback.textContent =

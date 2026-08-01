@@ -713,14 +713,31 @@ h2 {
   letter-spacing: -0.02em;
 }
 
+.pay-shell {
+  max-width: 560px;
+  margin-inline: auto;
+}
+
+.pay-head {
+  text-align: center;
+}
+
+.pay-head .section-lede {
+  margin-inline: auto;
+}
+
 .stripe-pay {
-  padding: 1rem;
+  padding: 1.25rem 1rem 1.35rem;
   border-top: 2px solid var(--mint-deep);
   background: rgba(61, 207, 142, 0.1);
   display: grid;
-  gap: 0.65rem;
+  gap: 0.75rem;
   justify-items: center;
   text-align: center;
+}
+
+.stripe-pay .btn-wide {
+  width: min(100%, 320px);
 }
 
 .stripe-pay-note {
@@ -728,17 +745,6 @@ h2 {
   color: var(--ink-soft);
   font-size: 0.92rem;
   max-width: 36ch;
-}
-
-#stripe-buy-button-mount {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-#stripe-buy-button-mount stripe-buy-button {
-  margin-inline: auto;
 }
 
 .upsell-check input {
