@@ -81,13 +81,6 @@
     return n % 1 === 0 ? "$" + n.toFixed(0) : "$" + n.toFixed(2);
   }
 
-  function payUrlFor(tier) {
-    return (
-      "https://www.builtbyashley.com/resume/pay.html?tier=" +
-      encodeURIComponent(tier)
-    );
-  }
-
   function stripeUrlFor(tier) {
     return ((config.stripeLinks || {})[tier] || "").trim();
   }
@@ -113,7 +106,6 @@
       "<li>" + labels[tier] + " — " + money(total) + "</li>";
     totalEl.textContent = money(total);
     if (submitBtn) submitBtn.textContent = "Submit order & pay " + money(total);
-    if (nextInput) nextInput.value = payUrlFor(tier);
     if (subjectInput) {
       subjectInput.value =
         "Resume Optimizer — New order (" + tier + " · " + money(total) + ")";
@@ -134,63 +126,92 @@
     el.classList.toggle("error", Boolean(isError));
   }
 
+  function sendOrderEmails() {
+    if (!form) return;
+    const data = new FormData(form);
+    if (subjectInput) data.set("_subject", subjectInput.value);
+    data.delete("_next");
+
+    // Formspree Forms inbox (captcha off)
+    const formspree =
+      config.formspreeEndpoint || "https://formspree.io/f/xwvgjqlb";
+    fetch(formspree, {
+      method: "POST",
+      body: data,
+      headers: { Accept: "application/json" },
+      mode: "cors",
+      keepalive: true,
+    }).catch(function () {});
+
+    // Backup email to hello@
+    fetch("https://formsubmit.co/ajax/hello@builtbyashley.com", {
+      method: "POST",
+      body: data,
+      headers: { Accept: "application/json" },
+      mode: "cors",
+      keepalive: true,
+    }).catch(function () {});
+  }
+
+  function goToCheckout() {
+    const tier = (tierSelect && tierSelect.value) || "";
+    const total = prices[tier] || 0;
+    const paymentUrl = stripeUrlFor(tier);
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return false;
+    }
+
+    if (!tier) {
+      showStatus(statusEl, "Please select a package.", true);
+      return false;
+    }
+
+    if (!paymentUrl) {
+      showStatus(
+        statusEl,
+        "That package is not available for checkout yet. Email " +
+          (config.contactEmail || "hello@builtbyashley.com") +
+          ".",
+        true
+      );
+      return false;
+    }
+
+    if (subjectInput) {
+      subjectInput.value =
+        "Resume Optimizer — New order (" + tier + " · " + money(total) + ")";
+    }
+    if (nextInput) nextInput.value = paymentUrl;
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Opening Stripe…";
+    }
+    showStatus(statusEl, "Opening Stripe…");
+
+    // Emails are fire-and-forget — never block Stripe
+    sendOrderEmails();
+
+    // Hard redirect — no Formspree page in between
+    window.location.assign(paymentUrl);
+    return true;
+  }
+
   updateOrderSummary();
+
+  if (submitBtn) {
+    submitBtn.addEventListener("click", function (event) {
+      event.preventDefault();
+      goToCheckout();
+    });
+  }
 
   if (form) {
     form.addEventListener("submit", function (event) {
-      // Open Stripe immediately (captcha/Formspree was stranding checkout).
-      // Order details are emailed via FormSubmit in the background.
       event.preventDefault();
-
-      const tier = (tierSelect && tierSelect.value) || "";
-      const total = prices[tier] || 0;
-      const paymentUrl = stripeUrlFor(tier) || payUrlFor(tier);
-
-      if (!tier) {
-        showStatus(statusEl, "Please select a package.", true);
-        return;
-      }
-
-      if (!stripeUrlFor(tier)) {
-        showStatus(
-          statusEl,
-          "That package isn’t available for checkout yet. Email " +
-            (config.contactEmail || "us") +
-            ".",
-          true
-        );
-        return;
-      }
-
-      if (nextInput) nextInput.value = payUrlFor(tier);
-      if (subjectInput) {
-        subjectInput.value =
-          "Resume Optimizer — New order (" + tier + " · " + money(total) + ")";
-      }
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.textContent = "Opening checkout…";
-      }
-      showStatus(statusEl, "Opening Stripe checkout…");
-
-      // Email order details to hello@ (FormSubmit — no Formspree captcha)
-      try {
-        const data = new FormData(form);
-        data.set("_subject", subjectInput ? subjectInput.value : "Resume Optimizer — New order");
-        data.set("_template", "table");
-        data.delete("_next");
-        fetch("https://formsubmit.co/ajax/hello@builtbyashley.com", {
-          method: "POST",
-          body: data,
-          headers: { Accept: "application/json" },
-          mode: "cors",
-          keepalive: true,
-        }).catch(function () {});
-      } catch (err) {
-        /* ignore */
-      }
-
-      window.location.href = paymentUrl;
+      goToCheckout();
     });
   }
 })();
