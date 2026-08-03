@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order form | Resume Optimizer</title>
+    <meta name="robots" content="noindex" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Syne:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/resume/styles.css" />
+  </head>
+  <body>
+    <div class="atmosphere" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="/resume/">
+          <span class="brand-name">Resume Optimizer</span>
+          <span class="brand-by">by BuiltByAshley</span>
+        </a>
+      </div>
+    </header>
+
+    <main class="section">
+      <div class="shell">
+        <div class="section-head">
+          <p class="eyebrow">You&rsquo;re in &#9989;</p>
+          <h2>Tell me about your resume</h2>
+          <p class="section-lede">
+            Payment received &mdash; no checkout here. Fill this out and I&rsquo;ll get started.
+            Standard turnaround is 3&ndash;5 days from when this form comes in.
+          </p>
+        </div>
+
+        <form id="intake-form" class="order-form" action="#" method="POST">
+          <input type="hidden" name="_subject" id="intake-subject" value="Resume Optimizer - Intake form (PAID)" />
+          <input type="hidden" name="form_type" value="intake_paid" />
+
+          <div class="form-grid">
+            <label>
+              Package you purchased
+              <select id="tier" name="tier" required>
+                <option value="">Select your package</option>
+                <option value="starter">Starter</option>
+                <option value="career">Career</option>
+                <option value="pro">Pro</option>
+              </select>
+            </label>
+            <label>
+              How did you pay?
+              <select name="paid_via">
+                <option value="">Select one (optional)</option>
+                <option value="stripe">Stripe link</option>
+                <option value="cashapp">Cash App</option>
+                <option value="venmo">Venmo</option>
+                <option value="paypal">PayPal</option>
+                <option value="zelle">Zelle</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="form-grid">
+            <label>
+              Full name (as it should appear on the resume)
+              <input name="name" type="text" required autocomplete="name" />
+            </label>
+            <label>
+              Email
+              <input name="email" type="email" required autocomplete="email" />
+            </label>
+          </div>
+
+          <div class="form-grid">
+            <label>
+              Target job title(s)
+              <input name="job_title" type="text" required placeholder="e.g. Customer Support Specialist" />
+            </label>
+            <label>
+              Years of experience
+              <input name="experience" type="text" required placeholder="e.g. 3 years" />
+            </label>
+          </div>
+
+          <label>
+            Industry / field
+            <input name="industry" type="text" placeholder="e.g. Healthcare, Tech, Education" />
+          </label>
+
+          <label>
+            Link to current resume (Google Doc / Drive)
+            <input name="resume_link" type="url" placeholder="https://" />
+          </label>
+
+          <label>
+            Job description link(s) you&rsquo;re applying to
+            <textarea name="job_links" rows="3" placeholder="Paste 1-2 job links"></textarea>
+          </label>
+
+          <label>
+            Top 3 wins / achievements to highlight
+            <textarea name="wins" rows="4" required placeholder="Results, promotions, metrics, leadership..."></textarea>
+          </label>
+
+          <label>
+            Anything to remove or keep quiet?
+            <textarea name="remove_notes" rows="2" placeholder="Optional"></textarea>
+          </label>
+
+          <label>
+            Deadline
+            <input name="deadline" type="text" placeholder="e.g. Friday, or standard 3-5 days" />
+          </label>
+
+          <div class="legal-notice">
+            <p>
+              <strong>Ashley Lucero / BuiltByAshley</strong> collects the information you submit
+              to fulfill your resume order. Order details are processed by email.
+              We don&rsquo;t sell your personal information. Resume content is used only to deliver
+              your order unless you ask us to keep it for revisions.
+            </p>
+          </div>
+
+          <label class="consent">
+            <input name="consent" type="checkbox" value="yes" required />
+            <span>
+              I agree to the
+              <a href="https://www.builtbyashley.com/terms" target="_blank" rel="noopener">Terms of Service</a>
+              and
+              <a href="https://www.builtbyashley.com/privacy" target="_blank" rel="noopener">Privacy Policy</a>,
+              and I consent to my information being processed to complete this order.
+            </span>
+          </label>
+
+          <p id="form-status" class="form-status" hidden></p>
+
+          <button type="submit" class="btn btn-primary btn-wide" id="submit-btn">
+            Send my details
+          </button>
+
+          <p class="fineprint">
+            Questions or data requests:
+            <a href="mailto:hello@builtbyashley.com">hello@builtbyashley.com</a>
+            &middot;
+            <a href="https://www.builtbyashley.com/data-rights" target="_blank" rel="noopener">Data Rights</a>
+          </p>
+        </form>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-stack">
+        <p class="footer-copy">&copy; 2026 Ashley Lucero. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="/resume/config.js"></script>
+    <script>
+      (function () {
+        var config = window.RESUME_CONFIG || {};
+        var form = document.getElementById("intake-form");
+        var tierSelect = document.getElementById("tier");
+        var subjectInput = document.getElementById("intake-subject");
+        var statusEl = document.getElementById("form-status");
+        var submitBtn = document.getElementById("submit-btn");
+
+        // Pre-select the package from the link, e.g. form.html?tier=career
+        var params = new URLSearchParams(window.location.search);
+        var tierParam = (params.get("tier") || "").toLowerCase();
+        if (tierParam && tierSelect.querySelector('option[value="' + tierParam + '"]')) {
+          tierSelect.value = tierParam;
+        }
+
+        function showStatus(message, isError) {
+          statusEl.hidden = false;
+          statusEl.textContent = message;
+          statusEl.classList.toggle("error", Boolean(isError));
+        }
+
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+          if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+          }
+
+          var tier = tierSelect.value;
+          subjectInput.value = "Resume Optimizer - Intake form (PAID \u00b7 " + tier + ")";
+
+          var data = new FormData(form);
+          data.set("_subject", subjectInput.value);
+
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Sending\u2026";
+
+          var formspree = config.formspreeEndpoint || "https://formspree.io/f/xwvgjqlb";
+
+          // Backup copy to hello@ - fire-and-forget
+          fetch("https://formsubmit.co/ajax/hello@builtbyashley.com", {
+            method: "POST",
+            body: data,
+            headers: { Accept: "application/json" },
+            mode: "cors",
+            keepalive: true,
+          }).catch(function () {});
+
+          fetch(formspree, {
+            method: "POST",
+            body: data,
+            headers: { Accept: "application/json" },
+            mode: "cors",
+          })
+            .then(function (res) {
+              if (!res.ok) throw new Error("send failed");
+              form.hidden = true;
+              document.querySelector(".section-head h2").textContent =
+                "Got it \u2014 you\u2019re locked in \u2705";
+              document.querySelector(".section-lede").textContent =
+                "Your details are in. I\u2019ll start on your resume and reach out by email or DM if I have questions. First draft in 3\u20135 days.";
+              document.querySelector(".eyebrow").textContent = "All set";
+            })
+            .catch(function () {
+              submitBtn.disabled = false;
+              submitBtn.textContent = "Send my details";
+              showStatus(
+                "Something went wrong sending the form. Please try again, or email your answers to " +
+                  (config.contactEmail || "hello@builtbyashley.com") +
+                  ".",
+                true
+              );
+            });
+        });
+      })();
+    </script>
+  </body>
+</html>

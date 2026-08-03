@@ -39,7 +39,7 @@
 
         <div class="stripe-pay" id="stripe-pay">
           <p class="order-summary-label">Total due now</p>
-          <p class="order-summary-total"><strong id="pay-total">—</strong></p>
+          <p class="order-summary-total"><strong id="pay-total">&hellip;</strong></p>
           <a class="btn btn-primary btn-wide" id="pay-link" href="#">Pay with Stripe</a>
           <p id="pay-fallback" class="fineprint" hidden></p>
         </div>
@@ -102,7 +102,7 @@
         if (fallback) {
           fallback.hidden = false;
           fallback.textContent =
-            "Checkout isn’t available right now. Email " +
+            "Checkout isn't available right now. Email " +
             (config.contactEmail || "hello@builtbyashley.com") +
             ".";
         }
