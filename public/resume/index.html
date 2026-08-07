@@ -180,8 +180,9 @@
               <h3 id="upsell-title">Cover Letter add-on — <span class="was">$29</span> $14.50</h3>
               <p>
                 A matching cover letter written for the same target role — 50% off with your
-                Starter or Career order (Pro already includes one). Order your package below,
-                then add it with one click. JD Tailoring and Rush delivery are coming soon.
+                Starter or Career order (Pro already includes one). Just tick the add-on box
+                on the order form below and it's included in one checkout. JD Tailoring and
+                Rush delivery are coming soon.
               </p>
             </div>
             <a
@@ -401,6 +402,17 @@ https://www.builtbyashley.com/resume
               <input name="deadline" type="text" placeholder="e.g. Friday, or standard 3–5 days" />
             </label>
 
+            <label class="consent addon-choice" id="addon-cover-letter-wrap">
+              <input id="addon-cover-letter" name="cover_letter_addon" type="checkbox" value="yes" />
+              <span>
+                Add a matching <strong>Cover Letter</strong> —
+                <span class="was">$29</span> <strong>$14.50</strong> (50% off)
+              </span>
+            </label>
+            <p class="coming-soon-note" id="addon-pro-note" hidden>
+              Pro already includes a cover letter — no add-on needed.
+            </p>
+
             <p class="coming-soon-note">JD Tailoring Pack ($29) — coming soon</p>
             <p class="coming-soon-note">Rush delivery 24–48 hrs ($29) — coming soon</p>
 
@@ -561,7 +573,7 @@ https://www.builtbyashley.com/resume
     </footer>
 
     <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-    <script src="/resume/config.js?v=20260801b"></script>
-    <script src="/resume/app.js?v=20260801b"></script>
+    <script src="/resume/config.js?v=20260807a"></script>
+    <script src="/resume/app.js?v=20260807a"></script>
   </body>
 </html>

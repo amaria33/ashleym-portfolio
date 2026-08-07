@@ -13,6 +13,13 @@
     { starter: 39.5, career: 74.5, pro: 124.5 },
     config.prices || {}
   );
+  const addonPrices = Object.assign(
+    { coverLetter: 14.5 },
+    config.addonPrices || {}
+  );
+  const addonCheckbox = document.getElementById("addon-cover-letter");
+  const addonWrap = document.getElementById("addon-cover-letter-wrap");
+  const addonProNote = document.getElementById("addon-pro-note");
 
   document.querySelectorAll(".select-tier").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -76,13 +83,39 @@
   initCountdown();
 
   if (tierSelect) tierSelect.addEventListener("change", updateOrderSummary);
+  if (addonCheckbox) addonCheckbox.addEventListener("change", updateOrderSummary);
 
   function money(n) {
     return n % 1 === 0 ? "$" + n.toFixed(0) : "$" + n.toFixed(2);
   }
 
-  function stripeUrlFor(tier) {
+  function coverLetterSelected(tier) {
+    // Pro already includes a cover letter — never charge the add-on for it
+    return Boolean(addonCheckbox && addonCheckbox.checked && tier !== "pro");
+  }
+
+  function stripeUrlFor(tier, withCoverLetter) {
+    if (withCoverLetter) {
+      const combined = (
+        (config.stripeLinksWithCoverLetter || {})[tier] || ""
+      ).trim();
+      if (combined) return combined;
+    }
     return ((config.stripeLinks || {})[tier] || "").trim();
+  }
+
+  function hasCombinedLink(tier) {
+    return Boolean(((config.stripeLinksWithCoverLetter || {})[tier] || "").trim());
+  }
+
+  function orderTotal(tier) {
+    let total = prices[tier] || 0;
+    if (coverLetterSelected(tier)) total += addonPrices.coverLetter;
+    return total;
+  }
+
+  function orderLabel(tier) {
+    return tier + (coverLetterSelected(tier) ? " + cover letter" : "");
   }
 
   function updateOrderSummary() {
@@ -90,6 +123,11 @@
     const tier = (tierSelect && tierSelect.value) || "";
     const directPay = document.getElementById("direct-pay");
     const directPayWrap = document.getElementById("direct-pay-wrap");
+
+    // Hide the add-on option for Pro (already included)
+    const isPro = tier === "pro";
+    if (addonWrap) addonWrap.hidden = isPro;
+    if (addonProNote) addonProNote.hidden = !isPro;
 
     if (!tier || prices[tier] == null) {
       summaryEl.hidden = true;
@@ -99,16 +137,22 @@
     }
 
     const labels = { starter: "Starter", career: "Career", pro: "Pro" };
-    const total = prices[tier];
-    const stripeUrl = stripeUrlFor(tier);
+    const withCoverLetter = coverLetterSelected(tier);
+    const total = orderTotal(tier);
+    const stripeUrl = stripeUrlFor(tier, withCoverLetter);
+
+    let lines = "<li>" + labels[tier] + " — " + money(prices[tier]) + "</li>";
+    if (withCoverLetter) {
+      lines +=
+        "<li>Cover Letter add-on — " + money(addonPrices.coverLetter) + "</li>";
+    }
     summaryEl.hidden = false;
-    summaryEl.querySelector("[data-lines]").innerHTML =
-      "<li>" + labels[tier] + " — " + money(total) + "</li>";
+    summaryEl.querySelector("[data-lines]").innerHTML = lines;
     totalEl.textContent = money(total);
     if (submitBtn) submitBtn.textContent = "Submit order & pay " + money(total);
     if (subjectInput) {
       subjectInput.value =
-        "Resume Optimizer — New order (" + tier + " · " + money(total) + ")";
+        "Resume Optimizer — New order (" + orderLabel(tier) + " · " + money(total) + ")";
     }
     if (directPay && directPayWrap && stripeUrl) {
       directPay.href = stripeUrl;
@@ -155,8 +199,9 @@
 
   function goToCheckout() {
     const tier = (tierSelect && tierSelect.value) || "";
-    const total = prices[tier] || 0;
-    const paymentUrl = stripeUrlFor(tier);
+    const withCoverLetter = coverLetterSelected(tier);
+    const total = orderTotal(tier);
+    const paymentUrl = stripeUrlFor(tier, withCoverLetter);
 
     if (!form.checkValidity()) {
       form.reportValidity();
@@ -181,9 +226,18 @@
 
     if (subjectInput) {
       subjectInput.value =
-        "Resume Optimizer — New order (" + tier + " · " + money(total) + ")";
+        "Resume Optimizer — New order (" + orderLabel(tier) + " · " + money(total) + ")";
     }
     if (nextInput) nextInput.value = paymentUrl;
+
+    // No combined Stripe link yet — charge the package now and follow up
+    // with the standalone cover letter link by email.
+    if (withCoverLetter && !hasCombinedLink(tier)) {
+      showStatus(
+        statusEl,
+        "Your package checkout is opening — I'll email you the $14.50 cover letter link right after."
+      );
+    }
 
     if (submitBtn) {
       submitBtn.disabled = true;

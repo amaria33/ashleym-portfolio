@@ -81,13 +81,30 @@
           return;
         }
 
-        var total = prices[tier];
-        var paymentUrl = (config.stripeLinks || {})[tier] || "";
+        // Cover letter add-on: pay.html?tier=career&cover_letter=yes
+        var addonPrices = Object.assign(
+          { coverLetter: 14.5 },
+          config.addonPrices || {}
+        );
+        var withCoverLetter =
+          (params.get("cover_letter") || "").toLowerCase() === "yes" &&
+          tier !== "pro";
 
-        if (title) title.textContent = "Pay for " + labels[tier];
+        // Only include the add-on when a combined Stripe link exists
+        var combinedUrl = withCoverLetter
+          ? ((config.stripeLinksWithCoverLetter || {})[tier] || "").trim()
+          : "";
+        if (withCoverLetter && !combinedUrl) withCoverLetter = false;
+
+        var total = prices[tier] + (withCoverLetter ? addonPrices.coverLetter : 0);
+        var paymentUrl = combinedUrl || (config.stripeLinks || {})[tier] || "";
+
+        var orderName = labels[tier] + (withCoverLetter ? " + Cover Letter" : "");
+
+        if (title) title.textContent = "Pay for " + orderName;
         if (lede) {
           lede.textContent =
-            "Your " + labels[tier] + " order details were sent. Complete payment below.";
+            "Your " + orderName + " order details were sent. Complete payment below.";
         }
         if (totalEl) totalEl.textContent = money(total);
 
