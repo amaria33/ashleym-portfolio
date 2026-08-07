@@ -108,10 +108,10 @@
           return;
         }
 
-        // No Drive link configured yet ù manual fallback
+        // No Drive link configured yet ó manual fallback
         if (ledeEl) {
           ledeEl.textContent =
-            "Payment received. Iùll email your download link to the address you used at checkout within a few hours (usually sooner).";
+            "Payment received. I'll email your download link to the address you used at checkout within a few hours (usually sooner).";
         }
         if (btn) {
           btn.href =
@@ -125,7 +125,7 @@
         if (note) {
           note.hidden = false;
           note.textContent =
-            "Tip for Ashley: paste the Drive zip URL into config.js ? templateDownloads.";
+            "Keep an eye on your inbox (and spam) for the download from " + email + ".";
         }
       })();
     </script>
