@@ -44,7 +44,7 @@
       <section class="hero">
         <div class="shell hero-grid">
           <div class="hero-copy">
-            <p class="offer-pill">Launch offer · Code RESUME50 · 50% off · Ends Aug 15</p>
+            <p class="offer-pill">Launch offer · Code RESUME50 · 50% off · Ends Aug 31</p>
             <p class="brand-mark">Resume Optimizer</p>
             <h1>Get past ATS. Get the interview.</h1>
             <p class="lede">
@@ -54,7 +54,7 @@
             <div
               class="countdown"
               id="sale-countdown"
-              data-end="2026-08-15T23:59:59"
+              data-end="2026-08-31T23:59:59"
               aria-live="polite"
             >
               <p class="countdown-label">50% off ends in</p>
@@ -109,7 +109,7 @@
             <p class="eyebrow">Packages</p>
             <h2>Pricing that scales with your career</h2>
             <p class="section-lede">
-              Launch pricing with code <strong>RESUME50</strong> — ends <strong>Aug 15</strong>.
+              Launch pricing with code <strong>RESUME50</strong> — ends <strong>Aug 31</strong>.
               Pick your tier and checkout in minutes.
             </p>
           </div>
@@ -283,7 +283,7 @@
 
 https://www.builtbyashley.com/resume/ats-checklist.pdf
 
-Want a full rewrite? Use code RESUME50 for 50% off (ends Aug 15):
+Want a full rewrite? Use code RESUME50 for 50% off (ends Aug 31):
 https://www.builtbyashley.com/resume
 
 — Ashley / BuiltByAshley"
@@ -528,20 +528,38 @@ https://www.builtbyashley.com/resume
           <div class="section-head">
             <p class="eyebrow">DIY option</p>
             <h2>Templates</h2>
-            <p class="section-lede">ATS-ready layouts if you want to write it yourself — launching soon.</p>
+            <p class="section-lede">
+              ATS-ready layouts if you want to write it yourself. Instant download after Stripe checkout.
+            </p>
           </div>
           <div class="template-row">
-            <div class="coming-soon-card">
-              <p class="coming-soon-badge">Coming soon</p>
-              <h3>ATS Template Pack — $17</h3>
+            <article class="template-card" data-template="template-pack">
+              <p class="tier-label">DIY</p>
+              <h3>ATS Template Pack</h3>
+              <p class="price"><span class="now">$17</span></p>
               <p>3 clean layouts (entry, mid, pro) — Word + Google Doc ready.</p>
-            </div>
-            <div class="coming-soon-card">
-              <p class="coming-soon-badge">Coming soon</p>
-              <h3>Job-Ready Bundle — $27</h3>
+              <a
+                class="btn btn-ghost template-buy"
+                data-pack="template-pack"
+                href="mailto:hello@builtbyashley.com?subject=ATS%20Template%20Pack%20%2417"
+              >Buy Template Pack — $17</a>
+            </article>
+            <article class="template-card" data-template="bundle">
+              <p class="tier-label">Best value</p>
+              <h3>Job-Ready Bundle</h3>
+              <p class="price"><span class="now">$27</span></p>
               <p>Templates + bullet formula sheet + keyword checklist.</p>
-            </div>
+              <a
+                class="btn btn-primary template-buy"
+                data-pack="bundle"
+                href="mailto:hello@builtbyashley.com?subject=Job-Ready%20Bundle%20%2427"
+              >Buy Bundle — $27</a>
+            </article>
           </div>
+          <p class="fineprint" style="margin-top: 1rem">
+            After payment you’ll land on a download page. Questions?
+            <a href="mailto:hello@builtbyashley.com">hello@builtbyashley.com</a>
+          </p>
         </div>
       </section>
     </main>
@@ -573,7 +591,7 @@ https://www.builtbyashley.com/resume
     </footer>
 
     <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-    <script src="/resume/config.js?v=20260807a"></script>
-    <script src="/resume/app.js?v=20260807a"></script>
+    <script src="/resume/config.js?v=20260807b"></script>
+    <script src="/resume/app.js?v=20260807b"></script>
   </body>
 </html>

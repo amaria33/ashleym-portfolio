@@ -253,6 +253,17 @@
     return true;
   }
 
+  // Wire template Buy buttons to Stripe Payment Links when configured
+  document.querySelectorAll(".template-buy").forEach((btn) => {
+    const pack = btn.getAttribute("data-pack");
+    const url = ((config.stripeLinks || {})[pack] || "").trim();
+    if (url) {
+      btn.href = url;
+      btn.target = "_blank";
+      btn.rel = "noopener";
+    }
+  });
+
   updateOrderSummary();
 
   if (submitBtn) {

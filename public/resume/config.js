@@ -34,12 +34,12 @@ window.RESUME_CONFIG = {
     starter: "https://buy.stripe.com/5kQ00jdkZ4nwfNF0EtaMU01", // $39.50
     career: "https://buy.stripe.com/bJecN580FcU230TevjaMU02", // $74.50
     pro: "https://buy.stripe.com/4gMeVdep38DM30TgDraMU03", // $124.50
-    "template-pack": "", // coming soon
-    bundle: "", // coming soon
+    // After payment → redirect to thanks-templates.html?pack=...
+    "template-pack": "", // $17 — set Stripe redirect to .../thanks-templates.html?pack=template-pack
+    bundle: "", // $27 — set Stripe redirect to .../thanks-templates.html?pack=bundle
   },
 
   // Combined Payment Links: package + Cover Letter add-on in ONE checkout.
-  // Create these in Stripe (see instructions), then paste the links here.
   stripeLinksWithCoverLetter: {
     starter: "https://buy.stripe.com/aFabJ1ep33js8ld5YNaMU09", // Starter + Cover Letter — $54.00
     career: "https://buy.stripe.com/aFaaEX5Sx3js9ph0EtaMU0a", // Career + Cover Letter — $89.00
@@ -48,12 +48,21 @@ window.RESUME_CONFIG = {
   // Standalone Cover Letter add-on link (fallback / upsell band)
   stripeCoverLetterLink: "https://buy.stripe.com/00weVd4OtaLU0SLaf3aMU08", // $14.50
 
+  // Digital template downloads (Google Drive / Dropbox share links)
+  // Paste "anyone with the link" URLs once the zips are ready.
+  templateDownloads: {
+    "template-pack": "", // ATS Template Pack zip
+    bundle: "", // Job-Ready Bundle zip
+  },
+
+  templateThanksUrl: "https://www.builtbyashley.com/resume/thanks-templates.html",
+
   // Freebie uses FormSubmit (free autoresponse) — see freebie form action
   freebiePdfUrl: "/resume/ats-checklist.pdf",
   freebieThanksUrl: "/resume/thanks-freebie.html",
 
-  // Launch sale ends end of day Aug 15, 2026 (local time)
-  saleEndIso: "2026-08-15T23:59:59",
+  // Launch sale ends end of day Aug 31, 2026 (local time)
+  saleEndIso: "2026-08-31T23:59:59",
 
   contactEmail: "hello@builtbyashley.com",
 };

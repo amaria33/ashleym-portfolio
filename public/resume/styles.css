@@ -810,15 +810,24 @@ h2 {
   margin: 0 0 0.5rem;
 }
 
-.template-row p:not(.coming-soon-badge) {
-  margin: 0;
+.template-row p:not(.coming-soon-badge):not(.tier-label):not(.price) {
+  margin: 0 0 1rem;
   color: var(--muted);
 }
 
+.template-card,
 .coming-soon-card {
   padding: 1.1rem 1.05rem;
   border-top: 2px solid var(--line);
   background: rgba(255, 255, 255, 0.45);
+}
+
+.template-card .price {
+  margin: 0.35rem 0 0.75rem;
+}
+
+.template-card .btn {
+  width: 100%;
 }
 
 .coming-soon-badge {

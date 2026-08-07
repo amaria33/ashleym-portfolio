@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your templates are ready | Resume Optimizer</title>
+    <meta name="robots" content="noindex" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Syne:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/resume/styles.css" />
+  </head>
+  <body>
+    <div class="atmosphere" aria-hidden="true"></div>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="/resume/">
+          <span class="brand-name">Resume Optimizer</span>
+          <span class="brand-by">by BuiltByAshley</span>
+        </a>
+        <nav>
+          <a href="/resume/#order" class="nav-cta">Get 50% off</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="section">
+      <div class="shell pay-shell">
+        <div class="section-head pay-head">
+          <p class="eyebrow">Payment received</p>
+          <h2 id="thanks-title">Your download is ready</h2>
+          <p class="section-lede" id="thanks-lede">
+            Thanks for your purchase. Grab your files below.
+          </p>
+        </div>
+
+        <div class="stripe-pay" id="download-box">
+          <p class="order-summary-label" id="pack-label">Your pack</p>
+          <a class="btn btn-primary btn-wide" id="download-btn" href="#" target="_blank" rel="noopener">
+            Download files
+          </a>
+          <p class="fineprint" id="download-note" hidden></p>
+          <p class="fineprint" style="margin-top: 1rem">
+            Need help opening the files?
+            <a href="mailto:hello@builtbyashley.com">hello@builtbyashley.com</a>
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <script src="/resume/config.js?v=20260807b"></script>
+    <script>
+      (function () {
+        var config = window.RESUME_CONFIG || {};
+        var params = new URLSearchParams(window.location.search);
+        var pack = (params.get("pack") || "").toLowerCase();
+        var labels = {
+          "template-pack": "ATS Template Pack ù $17",
+          bundle: "Job-Ready Bundle ù $27",
+        };
+        var titles = {
+          "template-pack": "Your Template Pack is ready",
+          bundle: "Your Job-Ready Bundle is ready",
+        };
+        var downloads = config.templateDownloads || {};
+        var titleEl = document.getElementById("thanks-title");
+        var ledeEl = document.getElementById("thanks-lede");
+        var labelEl = document.getElementById("pack-label");
+        var btn = document.getElementById("download-btn");
+        var note = document.getElementById("download-note");
+        var email = config.contactEmail || "hello@builtbyashley.com";
+
+        if (!pack || !labels[pack]) {
+          if (titleEl) titleEl.textContent = "Thanks for your purchase";
+          if (ledeEl) {
+            ledeEl.textContent =
+              "If you just paid, check the email from Stripe ù or email " +
+              email +
+              " and Iùll send your download link.";
+          }
+          if (labelEl) labelEl.textContent = "Need your files?";
+          if (btn) {
+            btn.href = "mailto:" + email + "?subject=Template%20download%20help";
+            btn.textContent = "Email me for my download";
+            btn.removeAttribute("target");
+          }
+          return;
+        }
+
+        var url = (downloads[pack] || "").trim();
+        if (titleEl) titleEl.textContent = titles[pack] || "Your download is ready";
+        if (labelEl) labelEl.textContent = labels[pack];
+
+        if (url && btn) {
+          btn.href = url;
+          btn.textContent = "Download " + (pack === "bundle" ? "Bundle" : "Template Pack");
+          if (ledeEl) {
+            ledeEl.textContent =
+              "Save the zip, unzip it, and open the Word or Google Doc files. Bookmark this page if you need them again.";
+          }
+          window.setTimeout(function () {
+            // Open Drive/Dropbox in a new tab; don't force-download unknown hosts
+            if (url.indexOf("/resume/") === 0) btn.click();
+          }, 500);
+          return;
+        }
+
+        // No Drive link configured yet ù manual fallback
+        if (ledeEl) {
+          ledeEl.textContent =
+            "Payment received. Iùll email your download link to the address you used at checkout within a few hours (usually sooner).";
+        }
+        if (btn) {
+          btn.href =
+            "mailto:" +
+            email +
+            "?subject=" +
+            encodeURIComponent("Send my " + labels[pack] + " download");
+          btn.textContent = "Email me if you need it sooner";
+          btn.removeAttribute("target");
+        }
+        if (note) {
+          note.hidden = false;
+          note.textContent =
+            "Tip for Ashley: paste the Drive zip URL into config.js ? templateDownloads.";
+        }
+      })();
+    </script>
+  </body>
+</html>
