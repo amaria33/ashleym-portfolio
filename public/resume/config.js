@@ -52,7 +52,8 @@ window.RESUME_CONFIG = {
   // Paste "anyone with the link" URLs once the zips are ready.
   templateDownloads: {
     "template-pack": "", // ATS Template Pack zip
-    bundle: "", // Job-Ready Bundle zip
+    bundle:
+      "https://drive.google.com/drive/folders/1Od0Qo-xVvueH0iIeDV0Cji3iGbhnQa_u", // Job-Ready Bundle
   },
 
   templateThanksUrl: "https://www.builtbyashley.com/resume/thanks-templates.html",
