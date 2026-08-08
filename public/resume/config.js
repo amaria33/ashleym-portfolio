@@ -35,8 +35,8 @@ window.RESUME_CONFIG = {
     career: "https://buy.stripe.com/bJecN580FcU230TevjaMU02", // $74.50
     pro: "https://buy.stripe.com/4gMeVdep38DM30TgDraMU03", // $124.50
     // After payment → redirect to thanks-templates.html?pack=...
-    "template-pack": "", // $17 — set Stripe redirect to .../thanks-templates.html?pack=template-pack
-    bundle: "", // $27 — set Stripe redirect to .../thanks-templates.html?pack=bundle
+    "template-pack": "https://buy.stripe.com/3cI6oHgxb1bkcBtevjaMU0b", // $17 ATS Template Pack
+    bundle: "https://buy.stripe.com/eVqbJ1ft77zI0SL1IxaMU0c", // $27 Job-Ready Bundle
   },
 
   // Combined Payment Links: package + Cover Letter add-on in ONE checkout.
